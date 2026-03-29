@@ -1,0 +1,740 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <!-- NAV -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="/" class="logo">⚒ Forja Labs</a>
+      <div class="nav-links">
+        <a href="#servicios">Servicios</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto" class="btn btn-primary btn-sm">Cotiza ahora</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container hero-inner">
+      <div class="hero-badge">🚀 Software + AI = velocidad real</div>
+      <h1>
+        Tu software a medida,<br />
+        <span class="accent">listo en 2-3 semanas.</span>
+      </h1>
+      <p class="hero-desc">
+        No más proyectos que duran meses. Forja Labs construye soluciones reales
+        con un equipo de agentes AI especializados — rápido, sin burocracia, con calidad de producción.
+      </p>
+      <div class="hero-ctas">
+        <a href="#contacto" class="btn btn-primary">Cotiza tu proyecto →</a>
+        <a href="#servicios" class="btn btn-outline">Ver precios</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">2-3</span>
+          <span class="stat-label">semanas de entrega</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">+20</span>
+          <span class="stat-label">años de experiencia</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">remote-first</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPUESTA DE VALOR -->
+  <section id="valor">
+    <div class="container">
+      <p class="section-label">Por qué Forja Labs</p>
+      <h2 class="section-title">Tres ventajas que no encontrarás<br />en una consultora tradicional</h2>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Velocidad real</h3>
+          <p>Sin procesos lentos ni reuniones infinitas. Entregamos en semanas lo que otros tardan meses.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💰</div>
+          <h3>Costo justo</h3>
+          <p>El workforce AI reduce costos operativos dramáticamente. Pagas por resultado, no por horas de reunión.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎯</div>
+          <h3>Calidad de producción</h3>
+          <p>Agentes especializados + arquitectura senior. Código limpio, documentado y escalable desde el día uno.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS / PRECIOS -->
+  <section id="servicios">
+    <div class="container">
+      <p class="section-label">Servicios</p>
+      <h2 class="section-title">Precios claros.<br />Sin sorpresas.</h2>
+      <p class="section-desc">Tres niveles según la complejidad de tu proyecto. Precio fijo, entrega garantizada.</p>
+
+      <div class="pricing-grid">
+        <!-- Básico -->
+        <div class="pricing-card">
+          <div class="pricing-badge green">🟢 Básico</div>
+          <div class="pricing-price">$900 <span>USD</span></div>
+          <p class="pricing-desc">Soluciones puntuales y rápidas para automatizar o integrar procesos.</p>
+          <ul class="pricing-list">
+            <li>✓ APIs REST y microservicios</li>
+            <li>✓ CRUDs y administradores</li>
+            <li>✓ Integraciones con servicios externos</li>
+            <li>✓ Scripts de automatización</li>
+            <li>✓ Bots y conectores</li>
+          </ul>
+          <a href="#contacto" class="btn btn-outline">Cotiza este nivel</a>
+        </div>
+
+        <!-- Medio -->
+        <div class="pricing-card featured">
+          <div class="pricing-badge-popular">Más popular</div>
+          <div class="pricing-badge yellow">🟡 Medio</div>
+          <div class="pricing-price">$2.200 <span>USD</span></div>
+          <p class="pricing-desc">Aplicaciones completas listas para validar tu producto en el mercado.</p>
+          <ul class="pricing-list">
+            <li>✓ Apps fullstack MVP</li>
+            <li>✓ Dashboards y reportería</li>
+            <li>✓ Microservicios complejos</li>
+            <li>✓ Módulos con lógica de negocio</li>
+            <li>✓ Autenticación y roles</li>
+          </ul>
+          <a href="#contacto" class="btn btn-primary">Cotiza este nivel</a>
+        </div>
+
+        <!-- Avanzado -->
+        <div class="pricing-card">
+          <div class="pricing-badge red">🔴 Avanzado</div>
+          <div class="pricing-price">$4.500 <span>USD</span></div>
+          <p class="pricing-desc">Plataformas robustas con arquitectura diseñada para escalar.</p>
+          <ul class="pricing-list">
+            <li>✓ Plataformas completas</li>
+            <li>✓ Arquitectura distribuida</li>
+            <li>✓ AI e inteligencia integrada</li>
+            <li>✓ Multi-tenant y alta disponibilidad</li>
+            <li>✓ DevOps y CI/CD incluido</li>
+          </ul>
+          <a href="#contacto" class="btn btn-outline">Cotiza este nivel</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section id="proceso">
+    <div class="container">
+      <p class="section-label">Cómo trabajamos</p>
+      <h2 class="section-title">Tres pasos.<br />De la idea a producción.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Brief & cotización</h3>
+            <p>Nos cuentas qué necesitas. En 24 horas tienes propuesta técnica y precio fijo. Sin compromiso.</p>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>Desarrollo iterativo</h3>
+            <p>Construimos rápido con revisiones cortas. Ves avances reales cada pocos días, no en meses.</p>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Entrega & soporte</h3>
+            <p>Deploy en producción, documentación completa y soporte post-entrega incluido.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros">
+    <div class="container nosotros-inner">
+      <div class="nosotros-text">
+        <p class="section-label">Sobre Forja Labs</p>
+        <h2 class="section-title">Experiencia senior.<br />Velocidad de startup.</h2>
+        <p>Forja Labs nació de una convicción: el software a medida no tiene que ser lento ni caro.</p>
+        <p>Fundada por <strong>Luis Núñez</strong> — ingeniero informático con más de 20 años en tecnología, ex-arquitecto senior en Everis y Axity, co-fundador de docta.io — y un equipo de agentes AI especializados en cada disciplina.</p>
+        <p>Hacemos lo que las grandes consultoras no pueden: movernos rápido sin sacrificar calidad.</p>
+      </div>
+      <div class="nosotros-team">
+        <h3>El equipo</h3>
+        <div class="team-grid">
+          <div class="team-member">
+            <span class="team-icon">✨</span>
+            <div>
+              <strong>Aurora</strong>
+              <span>CEO & Estrategia</span>
+            </div>
+          </div>
+          <div class="team-member">
+            <span class="team-icon">⚡</span>
+            <div>
+              <strong>Hermes</strong>
+              <span>Comercial & Desarrollo de negocio</span>
+            </div>
+          </div>
+          <div class="team-member">
+            <span class="team-icon">🎨</span>
+            <div>
+              <strong>Marketing</strong>
+              <span>Marca & Contenido</span>
+            </div>
+          </div>
+          <div class="team-member">
+            <span class="team-icon">💻</span>
+            <div>
+              <strong>Desarrollo</strong>
+              <span>Arquitectura & Código</span>
+            </div>
+          </div>
+          <div class="team-member">
+            <span class="team-icon">📋</span>
+            <div>
+              <strong>Delivery</strong>
+              <span>PM & Entrega</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="container">
+      <p class="section-label">Contacto</p>
+      <h2 class="section-title">¿Tienes un proyecto?<br />Hablemos.</h2>
+      <p class="section-desc">Cuéntanos qué necesitas y te respondemos en menos de 24 horas con una propuesta concreta.</p>
+
+      <form class="contact-form" name="contacto" method="POST" data-netlify="true">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="tu@empresa.com" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="proyecto">¿Qué necesitas construir?</label>
+          <textarea id="proyecto" name="proyecto" rows="5" placeholder="Describe tu proyecto: qué hace, para qué, en qué tecnología si tienes preferencia..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar cotización →</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <span class="logo">⚒ Forja Labs</span>
+      <span class="footer-copy">© 2025 Forja Labs. Hecho con IA en Chile 🇨🇱</span>
+      <div class="footer-links">
+        <a href="mailto:hola@forjalabs.cl">hola@forjalabs.cl</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover {
+    color: var(--text);
+  }
+
+  .btn-sm {
+    padding: 0.55rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  /* HERO */
+  #hero {
+    padding: 7rem 0 5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: var(--accent);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+
+  #hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+
+  .accent {
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3.5rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  /* CARDS PROPUESTA DE VALOR */
+  #valor {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+  }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .card p {
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* PRICING */
+  #servicios {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+    align-items: start;
+  }
+
+  .pricing-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .pricing-card.featured {
+    border-color: var(--accent);
+  }
+
+  .pricing-badge-popular {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #000;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.9rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .pricing-badge {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .pricing-badge.green { color: var(--green); }
+  .pricing-badge.yellow { color: var(--yellow); }
+  .pricing-badge.red { color: var(--red); }
+
+  .pricing-price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .pricing-price span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .pricing-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .pricing-list {
+    list-style: none;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .pricing-list li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .pricing-card .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* PROCESO */
+  #proceso {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .step {
+    flex: 1;
+    min-width: 220px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .step-num {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    opacity: 0.5;
+    line-height: 1;
+    margin-bottom: 1rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step-content h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-content p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .step-arrow {
+    font-size: 1.5rem;
+    color: var(--text-dim);
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  /* NOSOTROS */
+  #nosotros {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nosotros-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .nosotros-text p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  .nosotros-text strong {
+    color: var(--text);
+  }
+
+  .nosotros-team h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
+  }
+
+  .team-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .team-member {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+  }
+
+  .team-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .team-member div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .team-member strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .team-member span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  /* CONTACTO */
+  #contacto {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contact-form {
+    margin-top: 2.5rem;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  input, textarea {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--text-dim);
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-copy {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .footer-links a {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .footer-links a:hover {
+    color: var(--accent);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+
+    .step-arrow {
+      display: none;
+    }
+
+    .steps {
+      flex-direction: column;
+    }
+
+    .nosotros-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-inner {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>
