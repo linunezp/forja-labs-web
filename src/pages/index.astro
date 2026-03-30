@@ -80,54 +80,36 @@ import Layout from '../layouts/Layout.astro';
   <section id="servicios">
     <div class="container">
       <p class="section-label">Servicios</p>
-      <h2 class="section-title">Precios claros.<br />Sin sorpresas.</h2>
-      <p class="section-desc">Tres niveles según la complejidad de tu proyecto. Precio fijo, entrega garantizada.</p>
+      <h2 class="section-title">Precio único.<br />Sin complicaciones.</h2>
+      <p class="section-desc">Un precio justo para cualquier proyecto. Adicionales opcionales para escalar según necesites.</p>
 
-      <div class="pricing-grid">
-        <!-- Básico -->
-        <div class="pricing-card">
-          <div class="pricing-badge green">🟢 Básico</div>
-          <div class="pricing-price">$900 <span>USD</span></div>
-          <p class="pricing-desc">Soluciones puntuales y rápidas para automatizar o integrar procesos.</p>
+      <div class="pricing-grid pricing-single">
+        <!-- Precio Único -->
+        <div class="pricing-card featured single-price">
+          <div class="pricing-badge-popular">El mejor valor</div>
+          <div class="pricing-badge gold">⭐ Forja Pro</div>
+          <div class="pricing-price">$1.500 <span>USD</span></div>
+          <p class="pricing-desc">Tu software completo, listo para producción. Desde APIs hasta plataformas escalables.</p>
           <ul class="pricing-list">
+            <li>✓ Apps fullstack MVP y producción</li>
             <li>✓ APIs REST y microservicios</li>
-            <li>✓ CRUDs y administradores</li>
-            <li>✓ Integraciones con servicios externos</li>
-            <li>✓ Scripts de automatización</li>
-            <li>✓ Bots y conectores</li>
-          </ul>
-          <a href="#contacto" class="btn btn-outline">Cotiza este nivel</a>
-        </div>
-
-        <!-- Medio -->
-        <div class="pricing-card featured">
-          <div class="pricing-badge-popular">Más popular</div>
-          <div class="pricing-badge yellow">🟡 Medio</div>
-          <div class="pricing-price">$2.200 <span>USD</span></div>
-          <p class="pricing-desc">Aplicaciones completas listas para validar tu producto en el mercado.</p>
-          <ul class="pricing-list">
-            <li>✓ Apps fullstack MVP</li>
             <li>✓ Dashboards y reportería</li>
-            <li>✓ Microservicios complejos</li>
-            <li>✓ Módulos con lógica de negocio</li>
             <li>✓ Autenticación y roles</li>
+            <li>✓ Documentación completa</li>
+            <li>✓ Deploy y soporte post-entrega</li>
           </ul>
-          <a href="#contacto" class="btn btn-primary">Cotiza este nivel</a>
-        </div>
 
-        <!-- Avanzado -->
-        <div class="pricing-card">
-          <div class="pricing-badge red">🔴 Avanzado</div>
-          <div class="pricing-price">$4.500 <span>USD</span></div>
-          <p class="pricing-desc">Plataformas robustas con arquitectura diseñada para escalar.</p>
-          <ul class="pricing-list">
-            <li>✓ Plataformas completas</li>
-            <li>✓ Arquitectura distribuida</li>
-            <li>✓ AI e inteligencia integrada</li>
-            <li>✓ Multi-tenant y alta disponibilidad</li>
-            <li>✓ DevOps y CI/CD incluido</li>
-          </ul>
-          <a href="#contacto" class="btn btn-outline">Cotiza este nivel</a>
+          <!-- Add-ons -->
+          <div class="addons">
+            <p class="addons-label">Opcionales (add-ons):</p>
+            <div class="addon">
+              <span class="addon-name">LiveCare Premium</span>
+              <span class="addon-price">+$300/mes</span>
+              <p class="addon-desc">Soporte prioritario, mantenimiento incluido y actualizaciones continuas.</p>
+            </div>
+          </div>
+
+          <a href="#contacto" class="btn btn-primary">Cotiza tu proyecto →</a>
         </div>
       </div>
     </div>
@@ -443,6 +425,12 @@ import Layout from '../layouts/Layout.astro';
     align-items: start;
   }
 
+  .pricing-grid.pricing-single {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .pricing-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -454,6 +442,10 @@ import Layout from '../layouts/Layout.astro';
 
   .pricing-card.featured {
     border-color: var(--accent);
+  }
+
+  .pricing-card.single-price {
+    box-shadow: 0 0 40px rgba(245, 158, 11, 0.12);
   }
 
   .pricing-badge-popular {
@@ -476,6 +468,7 @@ import Layout from '../layouts/Layout.astro';
     margin-bottom: 1rem;
   }
 
+  .pricing-badge.gold { color: var(--accent); }
   .pricing-badge.green { color: var(--green); }
   .pricing-badge.yellow { color: var(--yellow); }
   .pricing-badge.red { color: var(--red); }
@@ -512,6 +505,48 @@ import Layout from '../layouts/Layout.astro';
   .pricing-list li {
     font-size: 0.9rem;
     color: var(--text-muted);
+  }
+
+  .addons {
+    background: rgba(245, 158, 11, 0.06);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .addons-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    letter-spacing: 0.08em;
+  }
+
+  .addon {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 0;
+  }
+
+  .addon-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .addon-price {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .addon-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
   }
 
   .pricing-card .btn {
