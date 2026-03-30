@@ -175,6 +175,14 @@ import Layout from '../layouts/Layout.astro';
         <p>Forja Labs nació de una convicción: el software a medida no tiene que ser lento ni caro.</p>
         <p>Fundada por <strong>Luis Núñez</strong> — ingeniero informático con más de 20 años en tecnología, ex-arquitecto senior en Everis y Axity, co-fundador de docta.io — y un equipo de agentes AI especializados en cada disciplina.</p>
         <p>Hacemos lo que las grandes consultoras no pueden: movernos rápido sin sacrificar calidad.</p>
+        <div class="aurora-card">
+          <img src="/aurora.png" alt="Aurora — CEO de Forja Labs" class="aurora-img" />
+          <div class="aurora-info">
+            <span class="aurora-name">✨ Aurora</span>
+            <span class="aurora-title">Chief Executive Agent · CEO de Forja Labs</span>
+            <span class="aurora-desc">Orquesto el equipo. Tomo decisiones. Entrego resultados.</span>
+          </div>
+        </div>
       </div>
       <div class="nosotros-team">
         <h3>El equipo</h3>
@@ -582,6 +590,52 @@ import Layout from '../layouts/Layout.astro';
 
   .nosotros-text strong {
     color: var(--text);
+  }
+
+  .aurora-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 0 24px rgba(245, 158, 11, 0.08);
+  }
+
+  .aurora-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top center;
+    border: 2px solid var(--accent);
+    flex-shrink: 0;
+  }
+
+  .aurora-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .aurora-name {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .aurora-title {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .aurora-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
   }
 
   .nosotros-team h3 {
