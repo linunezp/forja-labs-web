@@ -179,39 +179,39 @@ import Layout from '../layouts/Layout.astro';
       <div class="nosotros-team">
         <h3>El equipo</h3>
         <div class="team-grid">
-          <div class="team-member">
-            <span class="team-icon">✨</span>
+          <div class="team-member featured-member">
+            <div class="team-avatar">✨</div>
             <div>
               <strong>Aurora</strong>
-              <span>CEO & Estrategia</span>
+              <span>CEO & Estrategia General</span>
             </div>
           </div>
           <div class="team-member">
-            <span class="team-icon">⚡</span>
+            <div class="team-avatar">⚡</div>
             <div>
               <strong>Hermes</strong>
-              <span>Comercial & Desarrollo de negocio</span>
+              <span>Business Development & Comercial</span>
             </div>
           </div>
           <div class="team-member">
-            <span class="team-icon">🎨</span>
+            <div class="team-avatar">🌈</div>
             <div>
-              <strong>Marketing</strong>
-              <span>Marca & Contenido</span>
+              <strong>Iris</strong>
+              <span>Marketing & Posicionamiento de Marca</span>
             </div>
           </div>
           <div class="team-member">
-            <span class="team-icon">💻</span>
+            <div class="team-avatar">📢</div>
             <div>
-              <strong>Desarrollo</strong>
-              <span>Arquitectura & Código</span>
+              <strong>Echo</strong>
+              <span>Social Media & Comunidad</span>
             </div>
           </div>
           <div class="team-member">
-            <span class="team-icon">📋</span>
+            <div class="team-avatar">🔨</div>
             <div>
-              <strong>Delivery</strong>
-              <span>PM & Entrega</span>
+              <strong>Hefesto</strong>
+              <span>Lead Developer & Arquitectura</span>
             </div>
           </div>
         </div>
@@ -610,9 +610,40 @@ import Layout from '../layouts/Layout.astro';
     padding: 1rem 1.25rem;
   }
 
-  .team-icon {
+  .team-avatar {
     font-size: 1.5rem;
     flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245, 158, 11, 0.08);
+    border-radius: 10px;
+    border: 1px solid rgba(245, 158, 11, 0.15);
+  }
+
+  .featured-member {
+    border-color: var(--accent) !important;
+    background: rgba(245, 158, 11, 0.05) !important;
+  }
+
+  .featured-member .team-avatar {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.4);
+  }
+
+  .featured-member strong::after {
+    content: " — CEO";
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    margin-left: 0.4rem;
+    vertical-align: middle;
   }
 
   .team-member div {
