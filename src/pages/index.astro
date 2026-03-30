@@ -30,7 +30,7 @@ import Layout from '../layouts/Layout.astro';
       </p>
       <div class="hero-ctas">
         <a href="#contacto" class="btn btn-primary">Cotiza tu proyecto →</a>
-        <a href="#servicios" class="btn btn-outline">Ver precios</a>
+        <a href="#servicios" class="btn btn-outline">Ver servicios</a>
       </div>
       <div class="hero-stats">
         <div class="stat">
@@ -80,16 +80,15 @@ import Layout from '../layouts/Layout.astro';
   <section id="servicios">
     <div class="container">
       <p class="section-label">Servicios</p>
-      <h2 class="section-title">Precio único.<br />Sin complicaciones.</h2>
-      <p class="section-desc">Un precio justo para cualquier proyecto. Adicionales opcionales para escalar según necesites.</p>
+      <h2 class="section-title">Precios por proyecto.<br />Personalizados para ti.</h2>
+      <p class="section-desc">No hay tarifas estándar. Cada proyecto es único. Cuéntanos qué necesitas y te respondemos con una propuesta ajustada a tu alcance.</p>
 
       <div class="pricing-grid pricing-single">
-        <!-- Precio Único -->
+        <!-- Propuesta Personalizada -->
         <div class="pricing-card featured single-price">
-          <div class="pricing-badge-popular">El mejor valor</div>
-          <div class="pricing-badge gold">⭐ Forja Pro</div>
-          <div class="pricing-price">$1.500 <span>USD</span></div>
-          <p class="pricing-desc">Tu software completo, listo para producción. Desde APIs hasta plataformas escalables.</p>
+          <div class="pricing-badge-popular">Hablemos de tu proyecto</div>
+          <div class="pricing-badge gold">⭐ Software a Medida</div>
+          <p class="pricing-desc">Plataformas escalables, APIs robustas, dashboards complejos — lo que necesites. Precio justo según alcance real.</p>
           <ul class="pricing-list">
             <li>✓ Apps fullstack MVP y producción</li>
             <li>✓ APIs REST y microservicios</li>
@@ -99,13 +98,11 @@ import Layout from '../layouts/Layout.astro';
             <li>✓ Deploy y soporte post-entrega</li>
           </ul>
 
-          <!-- Add-ons -->
-          <div class="addons">
-            <p class="addons-label">Opcionales (add-ons):</p>
-            <div class="addon">
-              <span class="addon-name">LiveCare Premium</span>
-              <span class="addon-price">+$300/mes</span>
-              <p class="addon-desc">Soporte prioritario, mantenimiento incluido y actualizaciones continuas.</p>
+          <div class="service-add">
+            <p class="service-add-label">Servicios adicionales opcionales:</p>
+            <div class="service-item">
+              <span class="service-name">LiveCare Premium</span>
+              <p class="service-desc">Soporte prioritario, mantenimiento incluido y actualizaciones continuas.</p>
             </div>
           </div>
 
@@ -473,20 +470,6 @@ import Layout from '../layouts/Layout.astro';
   .pricing-badge.yellow { color: var(--yellow); }
   .pricing-badge.red { color: var(--red); }
 
-  .pricing-price {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--text);
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-  }
-
-  .pricing-price span {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-muted);
-  }
-
   .pricing-desc {
     color: var(--text-muted);
     font-size: 0.95rem;
@@ -507,7 +490,7 @@ import Layout from '../layouts/Layout.astro';
     color: var(--text-muted);
   }
 
-  .addons {
+  .service-add {
     background: rgba(245, 158, 11, 0.06);
     border: 1px solid rgba(245, 158, 11, 0.2);
     border-radius: 10px;
@@ -515,7 +498,7 @@ import Layout from '../layouts/Layout.astro';
     margin-bottom: 1.5rem;
   }
 
-  .addons-label {
+  .service-add-label {
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -524,26 +507,20 @@ import Layout from '../layouts/Layout.astro';
     letter-spacing: 0.08em;
   }
 
-  .addon {
+  .service-item {
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
     margin-bottom: 0;
   }
 
-  .addon-name {
+  .service-name {
     font-size: 0.95rem;
     font-weight: 700;
     color: var(--text);
   }
 
-  .addon-price {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--accent);
-  }
-
-  .addon-desc {
+  .service-desc {
     font-size: 0.8rem;
     color: var(--text-muted);
     margin-top: 0.2rem;
