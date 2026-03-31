@@ -1,0 +1,81 @@
+name: Daily Report - Forja Labs
+
+on:
+  schedule:
+    # Todos los días 8 AM GMT-3 (13 UTC)
+    - cron: '0 13 * * *'
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+      
+      - name: Clone forja-ai databases
+        run: |
+          git clone https://github.com/linunezp/forja-labs-web.git temp-data || true
+          mkdir -p data
+      
+      - name: Generate daily report
+        run: |
+          python3 scripts/generate_daily_report.py
+      
+      - name: Send report via Brevo
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+        run: |
+          python3 << 'EOF'
+          import requests
+          import os
+          from pathlib import Path
+          
+          # Lee HTML generado
+          html_file = Path("scripts/.daily_report.html")
+          if not html_file.exists():
+              print("❌ HTML no encontrado")
+              exit(1)
+          
+          with open(html_file, "r") as f:
+              html_content = f.read()
+          
+          # Envía vía Brevo
+          api_key = os.environ.get("BREVO_API_KEY")
+          
+          payload = {
+              "sender": {
+                  "name": "Forja Labs",
+                  "email": "noreply@forjalabs.cl"
+              },
+              "to": [{
+                  "email": "lnunez@forjalabs.cl",
+                  "name": "Luis Núñez"
+              }],
+              "subject": "📊 Reporte Diario Forja Labs",
+              "htmlContent": html_content
+          }
+          
+          response = requests.post(
+              "https://api.brevo.com/v3/smtp/email",
+              json=payload,
+              headers={"api-key": api_key}
+          )
+          
+          if response.status_code == 201:
+              print("✅ Reporte enviado a lnunez@forjalabs.cl")
+              print(f"   Message ID: {response.json()['messageId']}")
+          else:
+              print(f"❌ Error enviando: {response.status_code}")
+              print(response.text)
+          EOF
