@@ -218,7 +218,7 @@ import Layout from '../layouts/Layout.astro';
       <h2 class="section-title">¿Tienes un proyecto?<br />Hablemos.</h2>
       <p class="section-desc">Cuéntanos qué necesitas y te respondemos en menos de 24 horas con una propuesta concreta.</p>
 
-      <form class="contact-form" name="contacto" method="POST" data-netlify="true">
+      <form id="contactForm" class="contact-form">
         <div class="form-row">
           <div class="form-group">
             <label for="nombre">Nombre</label>
@@ -229,14 +229,113 @@ import Layout from '../layouts/Layout.astro';
             <input type="email" id="email" name="email" placeholder="tu@empresa.com" required />
           </div>
         </div>
-        <div class="form-group">
-          <label for="proyecto">¿Qué necesitas construir?</label>
-          <textarea id="proyecto" name="proyecto" rows="5" placeholder="Describe tu proyecto: qué hace, para qué, en qué tecnología si tienes preferencia..." required></textarea>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="telefono">Teléfono (opcional)</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="+56 9 XXXX XXXX" />
+          </div>
+          <div class="form-group">
+            <label for="asunto">Asunto</label>
+            <input type="text" id="asunto" name="asunto" placeholder="Ej: API REST para mi startup" required />
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary">Enviar solicitud →</button>
+        <div class="form-group">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="5" placeholder="Describe tu proyecto: qué hace, para qué, en qué tecnología si tienes preferencia..." required minlength="10"></textarea>
+        </div>
+
+        <!-- Feedback Messages -->
+        <div id="formMessage" class="form-message" style="display: none;"></div>
+
+        <button type="submit" id="submitBtn" class="btn btn-primary">
+          <span id="submitText">Enviar solicitud →</span>
+          <span id="submitLoading" style="display: none;">Enviando...</span>
+        </button>
       </form>
     </div>
   </section>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const messageDiv = document.getElementById('formMessage');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitLoading = document.getElementById('submitLoading');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Reset message
+      messageDiv.style.display = 'none';
+      messageDiv.className = 'form-message';
+
+      // Get form data
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const asunto = document.getElementById('asunto').value.trim();
+      const mensaje = document.getElementById('mensaje').value.trim();
+
+      // Client-side validation
+      if (!nombre) {
+        showMessage('Nombre requerido', 'error');
+        return;
+      }
+      if (!email || !isValidEmail(email)) {
+        showMessage('Email inválido', 'error');
+        return;
+      }
+      if (!asunto) {
+        showMessage('Asunto requerido', 'error');
+        return;
+      }
+      if (!mensaje || mensaje.length < 10) {
+        showMessage('Mensaje debe tener al menos 10 caracteres', 'error');
+        return;
+      }
+
+      // Set loading state
+      submitBtn.disabled = true;
+      submitText.style.display = 'none';
+      submitLoading.style.display = 'inline';
+
+      try {
+        const response = await fetch('/.netlify/functions/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombre, email, telefono, asunto, mensaje }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showMessage(result.message, 'success');
+          form.reset();
+        } else {
+          showMessage(result.error || 'Error al enviar. Intenta de nuevo.', 'error');
+        }
+      } catch (err) {
+        showMessage('Error al enviar. Verifica tu conexión.', 'error');
+        console.error('Form submission error:', err);
+      } finally {
+        submitBtn.disabled = false;
+        submitText.style.display = 'inline';
+        submitLoading.style.display = 'none';
+      }
+    });
+
+    function isValidEmail(email) {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(email);
+    }
+
+    function showMessage(message, type) {
+      messageDiv.textContent = message;
+      messageDiv.className = `form-message form-message-${type}`;
+      messageDiv.style.display = 'block';
+      messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
 
   <!-- FOOTER -->
   <footer>
@@ -904,6 +1003,52 @@ import Layout from '../layouts/Layout.astro';
   input:focus, textarea:focus {
     outline: none;
     border-color: var(--accent);
+  }
+
+  /* Form Message (Success/Error) */
+  .form-message {
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .form-message-success {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+  }
+
+  .form-message-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Button Loading State */
+  button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  /* Responsive: Form Row */
+  @media (max-width: 640px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
   }
 
   /* FOOTER */
