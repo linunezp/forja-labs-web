@@ -84,7 +84,8 @@ async function sendViaBrevo(
 
     if (!response.ok) {
       const error = await response.text();
-      return { success: false, error: `Brevo error: ${response.status}` };
+      console.error('Brevo API Error:', error);
+      return { success: false, error: `Brevo error: ${response.status} - ${error}` };
     }
 
     return { success: true };
