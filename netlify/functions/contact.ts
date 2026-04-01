@@ -55,8 +55,11 @@ async function sendViaBrevo(
   mensaje: string
 ): Promise<{ success: boolean; error?: string }> {
   const apiKey = process.env.BREVO_API_KEY;
+  console.log('Debug: BREVO_API_KEY exists:', !!apiKey);
+  console.log('Debug: CONTACT_RECIPIENT_EMAIL:', process.env.CONTACT_RECIPIENT_EMAIL);
 
   if (!apiKey) {
+    console.error('BREVO_API_KEY no configurada');
     return { success: false, error: 'BREVO_API_KEY not configured' };
   }
 
