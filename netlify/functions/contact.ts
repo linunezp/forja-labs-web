@@ -32,18 +32,8 @@ function isValidEmail(email: string): boolean {
 }
 
 function logContactAttempt(data: any) {
-  // Logs to /forja-ai/logs/brevo_contact.log
-  const logsDir = '/forja-ai/logs';
-  const logFile = path.join(logsDir, 'brevo_contact.log');
-
-  try {
-    if (!fs.existsSync(logsDir)) {
-      fs.mkdirSync(logsDir, { recursive: true });
-    }
-    fs.appendFileSync(logFile, JSON.stringify(data) + '\n', 'utf-8');
-  } catch (err) {
-    console.error('Error logging:', err);
-  }
+  // Logs go to Netlify console (no local file needed on serverless)
+  console.log('[ContactForm]', JSON.stringify(data));
 }
 
 async function sendViaBrevo(
