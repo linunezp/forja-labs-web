@@ -66,7 +66,7 @@ async function sendViaBrevo(
 
   const payload = {
     to: [{ email: recipientEmail }],
-    from: { name: 'Forja Labs', email: 'noreply@forjalabs.cl' },
+    sender: { name: 'Forja Labs', email: 'noreply@forjalabs.cl' },
     subject: `[Forja Labs] Nuevo mensaje de contacto: ${senderName}`,
     htmlContent,
   };
