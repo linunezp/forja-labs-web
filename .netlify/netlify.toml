@@ -1,0 +1,30 @@
+functionsDirectory = "/Users/luisnunez/.openclaw/workspace/forja-labs-web/netlify/functions"
+functionsDirectoryOrigin = "default"
+plugins = []
+headers = []
+redirects = []
+
+[build]
+publish = "/Users/luisnunez/.openclaw/workspace/forja-labs-web/dist"
+publishOrigin = "ui"
+commandOrigin = "ui"
+command = "npm run build"
+functions = "/Users/luisnunez/.openclaw/workspace/forja-labs-web/netlify/functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[functions]
+
+[functions."*"]
