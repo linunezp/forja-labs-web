@@ -370,9 +370,11 @@ import Layout from '../layouts/Layout.astro';
   <footer>
     <div class="container footer-inner">
       <span class="logo">⚒ Forja Labs</span>
-      <span class="footer-copy">© 2025 Forja Labs. Hecho con IA en Chile 🇨🇱</span>
+      <span class="footer-copy">© 2026 Forja Labs. Hecho con IA en Chile 🇨🇱</span>
       <div class="footer-links">
         <a href="mailto:hola@forjalabs.cl">hola@forjalabs.cl</a>
+        <a href="https://instagram.com/forjalabs" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
+        <a href="https://tiktok.com/@forjalabs" target="_blank" rel="noopener noreferrer">🎵 TikTok</a>
       </div>
     </div>
   </footer>
@@ -1132,9 +1134,18 @@ import Layout from '../layouts/Layout.astro';
     color: var(--text-muted);
   }
 
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
   .footer-links a {
     font-size: 0.85rem;
     color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
   }
 
   .footer-links a:hover {
