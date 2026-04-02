@@ -179,32 +179,51 @@ import Layout from '../layouts/Layout.astro';
               <span class="org-name">Aurora</span>
             </div>
           </div>
-          
-          <!-- Connector line -->
-          <div class="org-connector-top"></div>
-          
-          <!-- Main roles -->
-          <div class="org-level roles-level">
-            <div class="org-node">
-              <strong>Dev +<br/>DevOps</strong>
-            </div>
-            <div class="org-node">
-              <strong>Product<br/>Manager</strong>
-            </div>
-            <div class="org-node">
-              <strong>Business<br/>Dev</strong>
-            </div>
-            <div class="org-node">
-              <strong>Operations &<br/>Monitor</strong>
-            </div>
-            <div class="org-node">
-              <strong>Executor</strong>
-            </div>
+
+          <!-- Connector vertical CEO → managers -->
+          <div class="org-connector-v"></div>
+
+          <!-- Horizontal bar -->
+          <div class="org-connector-h-wrap">
+            <div class="org-connector-h"></div>
           </div>
-          
-          <!-- Auxiliary -->
-          <div class="org-auxiliary">
-            <span class="aux-label">[Auxiliary: Marketing, Content (On Demand)]</span>
+
+          <!-- 4 Managers level -->
+          <div class="org-level managers-level">
+            <div class="org-branch">
+              <div class="org-connector-v short"></div>
+              <div class="org-node manager">
+                <strong>Social Media<br/>Manager</strong>
+              </div>
+            </div>
+            <div class="org-branch">
+              <div class="org-connector-v short"></div>
+              <div class="org-node manager">
+                <strong>Account<br/>Manager</strong>
+              </div>
+            </div>
+            <div class="org-branch">
+              <div class="org-connector-v short"></div>
+              <div class="org-node manager">
+                <strong>Project<br/>Manager</strong>
+              </div>
+              <!-- Sub: Dev Team -->
+              <div class="org-connector-v short"></div>
+              <div class="org-node sub-node">
+                <strong>Development<br/>Team</strong>
+              </div>
+            </div>
+            <div class="org-branch">
+              <div class="org-connector-v short"></div>
+              <div class="org-node manager">
+                <strong>Operations<br/>Manager</strong>
+              </div>
+              <!-- Sub: DevOps Agent -->
+              <div class="org-connector-v short"></div>
+              <div class="org-node sub-node">
+                <strong>DevOps<br/>Agent</strong>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -770,53 +789,101 @@ import Layout from '../layouts/Layout.astro';
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0;
   }
 
   .org-level {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 1.5rem;
+    flex-wrap: nowrap;
   }
 
   .ceo-level {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  /* Vertical connector */
+  .org-connector-v {
+    width: 2px;
+    height: 20px;
+    background: #3B58B8;
+    margin: 0 auto;
+  }
+
+  .org-connector-v.short {
+    height: 16px;
+    width: 2px;
+    background: #3B58B8;
+    margin: 0 auto;
+  }
+
+  /* Horizontal bar wrapper */
+  .org-connector-h-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .org-connector-h {
+    width: 75%;
+    height: 2px;
+    background: #3B58B8;
+  }
+
+  /* Managers level */
+  .managers-level {
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  /* Each branch column (manager + optional sub-node) */
+  .org-branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .org-node {
-    background: var(--bg-card);
-    border: 2px solid var(--border);
+    background: #2F2E2E;
+    border: 2px solid #3B58B8;
     border-radius: 10px;
-    padding: 1rem;
+    padding: 0.85rem 0.9rem;
     text-align: center;
-    min-width: 100px;
+    min-width: 110px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
+    gap: 0.3rem;
     transition: all 0.2s;
   }
 
   .org-node:hover {
     border-color: var(--accent);
-    background: rgba(245, 158, 11, 0.05);
+    background: rgba(59, 88, 184, 0.2);
   }
 
   .org-node strong {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--text);
+    color: #ffffff;
     line-height: 1.3;
   }
 
   /* CEO Node */
   .org-node.ceo {
     border-color: var(--accent);
-    background: rgba(245, 158, 11, 0.1);
+    background: rgba(245, 158, 11, 0.12);
     min-width: 130px;
     padding: 1.25rem 1rem;
+  }
+
+  .org-node.ceo strong {
+    color: var(--accent);
   }
 
   .org-emoji {
@@ -830,93 +897,52 @@ import Layout from '../layouts/Layout.astro';
     color: var(--accent);
   }
 
-  /* Connector Line */
-  .org-connector-top {
-    width: 2px;
-    height: 20px;
-    background: var(--border);
-    position: relative;
+  /* Manager nodes */
+  .org-node.manager {
+    background: #3B58B8;
+    border-color: #3B58B8;
+    min-width: 115px;
   }
 
-  .org-connector-top::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    height: 1px;
-    background: var(--border);
+  .org-node.manager:hover {
+    background: #4a6acc;
+    border-color: #4a6acc;
   }
 
-  /* Roles Level */
-  .roles-level {
-    gap: 0.8rem;
-    justify-content: center;
-    position: relative;
-    padding-top: 10px;
+  /* Sub nodes (Dev Team, DevOps Agent) */
+  .org-node.sub-node {
+    background: #2F2E2E;
+    border-color: #3B58B8;
+    min-width: 115px;
+    opacity: 0.92;
   }
 
-  .roles-level::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 5%;
-    right: 5%;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .roles-level .org-node {
-    min-width: 90px;
-    font-size: 0.75rem;
-    position: relative;
-    padding: 0.85rem 0.75rem;
-  }
-
-  .roles-level .org-node::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1px;
-    height: 10px;
-    background: var(--border);
-  }
-
-  /* Auxiliary */
-  .org-auxiliary {
-    margin-top: 1rem;
-    text-align: center;
-  }
-
-  .aux-label {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    font-style: italic;
-    opacity: 0.7;
+  .org-node.sub-node strong {
+    color: #a8c0ff;
   }
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
-    .org-level {
-      gap: 0.6rem;
+    .managers-level {
+      gap: 0.75rem;
     }
 
     .org-node {
-      min-width: 80px;
-      padding: 0.75rem 0.6rem;
-      font-size: 0.75rem;
+      min-width: 85px;
+      padding: 0.7rem 0.6rem;
     }
 
     .org-node strong {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
     }
 
-    .roles-level .org-node {
-      min-width: 70px;
-      padding: 0.6rem 0.5rem;
+    .org-node.manager,
+    .org-node.sub-node {
+      min-width: 85px;
+    }
+
+    .org-connector-h {
+      width: 85%;
     }
 
     .org-emoji {
@@ -929,23 +955,24 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 480px) {
+    .managers-level {
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+    }
+
     .org-chart {
-      gap: 1rem;
+      gap: 0;
     }
 
     .org-node {
-      min-width: 70px;
+      min-width: 75px;
       padding: 0.6rem 0.5rem;
       font-size: 0.7rem;
     }
 
     .org-node strong {
       font-size: 0.65rem;
-    }
-
-    .roles-level .org-node {
-      min-width: 60px;
-      padding: 0.5rem 0.4rem;
     }
 
     .org-emoji {
