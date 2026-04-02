@@ -936,16 +936,20 @@ import Layout from '../layouts/Layout.astro';
     border-color: #4a6acc;
   }
 
-  /* Sub nodes (Dev Team, DevOps Agent) */
+  /* Sub nodes (Dev Team, DevOps Agent) — same style as managers */
   .org-node.sub-node {
-    background: #2F2E2E;
+    background: #3B58B8;
     border-color: #3B58B8;
     min-width: 115px;
-    opacity: 0.92;
+  }
+
+  .org-node.sub-node:hover {
+    background: #4a6acc;
+    border-color: #4a6acc;
   }
 
   .org-node.sub-node strong {
-    color: #a8c0ff;
+    color: #ffffff;
   }
 
   /* RESPONSIVE */
