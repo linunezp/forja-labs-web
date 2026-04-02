@@ -368,13 +368,49 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- FOOTER -->
   <footer>
-    <div class="container footer-inner">
-      <span class="logo">⚒ Forja Labs</span>
-      <span class="footer-copy">© 2026 Forja Labs. Hecho con IA en Chile 🇨🇱</span>
-      <div class="footer-links">
-        <a href="mailto:hola@forjalabs.cl">hola@forjalabs.cl</a>
-        <a href="https://instagram.com/forjalabs" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
-        <a href="https://tiktok.com/@forjalabs" target="_blank" rel="noopener noreferrer">🎵 TikTok</a>
+    <div class="container">
+      <div class="footer-org">
+        <!-- Root node -->
+        <div class="footer-root">
+          <div class="footer-brand-node">
+            <span class="footer-brand-emoji">⚒</span>
+            <strong>Forja Labs</strong>
+          </div>
+          <p class="footer-copy">© 2026 Forja Labs. Hecho con IA en Chile 🇨🇱</p>
+        </div>
+
+        <!-- Connector vertical down -->
+        <div class="footer-connector-v"></div>
+
+        <!-- Horizontal connector bar -->
+        <div class="footer-connector-h-wrap">
+          <div class="footer-connector-h"></div>
+        </div>
+
+        <!-- Link nodes -->
+        <div class="footer-nodes">
+          <div class="footer-node-col">
+            <div class="footer-connector-v short"></div>
+            <a href="mailto:hola@forjalabs.cl" class="footer-node">
+              <span class="footer-node-emoji">✉️</span>
+              <strong>Email</strong>
+            </a>
+          </div>
+          <div class="footer-node-col">
+            <div class="footer-connector-v short"></div>
+            <a href="https://instagram.com/forjalabs" target="_blank" rel="noopener" class="footer-node">
+              <span class="footer-node-emoji">📸</span>
+              <strong>Instagram</strong>
+            </a>
+          </div>
+          <div class="footer-node-col">
+            <div class="footer-connector-v short"></div>
+            <a href="https://tiktok.com/@forjalabs" target="_blank" rel="noopener" class="footer-node">
+              <span class="footer-node-emoji">🎵</span>
+              <strong>TikTok</strong>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </footer>
@@ -1118,38 +1154,128 @@ import Layout from '../layouts/Layout.astro';
 
   /* FOOTER */
   footer {
-    padding: 2rem 0;
+    padding: 3rem 0 2rem;
   }
 
-  .footer-inner {
+  .footer-org {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0;
+  }
+
+  /* Root brand node */
+  .footer-root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer-brand-node {
+    background: #2F2E2E;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    min-width: 140px;
+  }
+
+  .footer-brand-emoji {
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+
+  .footer-brand-node strong {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
   }
 
   .footer-copy {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
+    margin: 0;
   }
 
-  .footer-links {
+  /* Connectors */
+  .footer-connector-v {
+    width: 2px;
+    height: 28px;
+    background: #3B58B8;
+    margin: 0 auto;
+  }
+
+  .footer-connector-v.short {
+    height: 20px;
+  }
+
+  .footer-connector-h-wrap {
+    width: 100%;
+    max-width: 380px;
     display: flex;
+    justify-content: center;
+  }
+
+  .footer-connector-h {
+    width: 100%;
+    height: 2px;
+    background: #3B58B8;
+  }
+
+  /* Node columns */
+  .footer-nodes {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .footer-node-col {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1.25rem;
-    flex-wrap: wrap;
+    flex: 1;
   }
 
-  .footer-links a {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+  /* Link nodes — same style as .org-node.manager */
+  .footer-node {
+    background: #3B58B8;
+    border: 2px solid #3B58B8;
+    border-radius: 10px;
+    padding: 0.85rem 0.9rem;
+    text-align: center;
+    min-width: 100px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    transition: all 0.2s;
     text-decoration: none;
-    transition: color 0.2s;
   }
 
-  .footer-links a:hover {
-    color: var(--accent);
+  .footer-node:hover {
+    background: #4a6acc;
+    border-color: #4a6acc;
+    transform: translateY(-2px);
+  }
+
+  .footer-node-emoji {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .footer-node strong {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.3;
   }
 
   /* RESPONSIVE */
@@ -1175,9 +1301,14 @@ import Layout from '../layouts/Layout.astro';
       grid-template-columns: 1fr;
     }
 
-    .footer-inner {
-      flex-direction: column;
-      text-align: center;
+    .footer-connector-h-wrap,
+    .footer-nodes {
+      max-width: 300px;
+    }
+
+    .footer-node {
+      min-width: 80px;
+      padding: 0.7rem 0.5rem;
     }
   }
 </style>
