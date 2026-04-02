@@ -207,6 +207,20 @@ import Layout from '../layouts/Layout.astro';
               <div class="org-node manager">
                 <strong>Project<br/>Manager</strong>
               </div>
+            </div>
+            <div class="org-branch">
+              <div class="org-connector-v short"></div>
+              <div class="org-node manager">
+                <strong>Operations<br/>Manager</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-nodes level (aligned with their parent managers via same 4-col grid) -->
+          <div class="org-level subnodes-level">
+            <div class="org-branch empty-branch"></div>
+            <div class="org-branch empty-branch"></div>
+            <div class="org-branch">
               <!-- Sub: Dev Team -->
               <div class="org-connector-v short"></div>
               <div class="org-node sub-node">
@@ -214,10 +228,6 @@ import Layout from '../layouts/Layout.astro';
               </div>
             </div>
             <div class="org-branch">
-              <div class="org-connector-v short"></div>
-              <div class="org-node manager">
-                <strong>Operations<br/>Manager</strong>
-              </div>
               <!-- Sub: DevOps Agent -->
               <div class="org-connector-v short"></div>
               <div class="org-node sub-node">
@@ -834,10 +844,22 @@ import Layout from '../layouts/Layout.astro';
   /* Managers level */
   .managers-level {
     width: 100%;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 1.25rem;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    align-items: end;
+    gap: 0 1rem;
+    flex-wrap: nowrap;
+  }
+
+  /* Sub-nodes level — same 4-col grid so columns align with managers */
+  .subnodes-level {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    align-items: start;
+    gap: 0 1rem;
   }
 
   /* Each branch column (manager + optional sub-node) */
@@ -845,6 +867,11 @@ import Layout from '../layouts/Layout.astro';
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  /* Spacer columns for empty branches */
+  .empty-branch {
+    visibility: hidden;
   }
 
   .org-node {
@@ -923,22 +950,23 @@ import Layout from '../layouts/Layout.astro';
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
-    .managers-level {
-      gap: 0.75rem;
+    .managers-level,
+    .subnodes-level {
+      gap: 0 0.5rem;
     }
 
     .org-node {
-      min-width: 85px;
-      padding: 0.7rem 0.6rem;
+      min-width: 75px;
+      padding: 0.7rem 0.4rem;
     }
 
     .org-node strong {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
     }
 
     .org-node.manager,
     .org-node.sub-node {
-      min-width: 85px;
+      min-width: 75px;
     }
 
     .org-connector-h {
@@ -955,10 +983,14 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 480px) {
-    .managers-level {
-      flex-wrap: wrap;
+    .managers-level,
+    .subnodes-level {
+      grid-template-columns: repeat(2, 1fr);
       gap: 0.6rem;
-      justify-content: center;
+    }
+
+    .empty-branch {
+      display: none;
     }
 
     .org-chart {
@@ -966,7 +998,7 @@ import Layout from '../layouts/Layout.astro';
     }
 
     .org-node {
-      min-width: 75px;
+      min-width: 70px;
       padding: 0.6rem 0.5rem;
       font-size: 0.7rem;
     }
