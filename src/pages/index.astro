@@ -155,18 +155,21 @@ import Layout from '../layouts/Layout.astro';
     <div class="container nosotros-inner">
       <div class="nosotros-text">
         <p class="section-label">Sobre Forja Labs</p>
-        <h2 class="section-title">Experiencia senior.<br />Velocidad de startup.</h2>
-        <p>Forja Labs nació de una convicción: el software a medida no tiene que ser lento ni caro.</p>
-        <p>Fundada por <strong>Luis Núñez</strong> — ingeniero informático con más de 20 años en tecnología, ex-arquitecto senior en Everis y Axity, co-fundador de docta.io — y un equipo de agentes AI especializados en cada disciplina.</p>
-        <p>Hacemos lo que las grandes consultoras no pueden: movernos rápido sin sacrificar calidad.</p>
-        <div class="aurora-card">
-          <img src="/aurora.png" alt="Aurora — CEO de Forja Labs" class="aurora-img" />
-          <div class="aurora-info">
-            <span class="aurora-name">✨ Aurora</span>
-            <span class="aurora-title">Chief Executive Agent · CEO de Forja Labs</span>
-            <span class="aurora-desc">Orquesto el equipo. Tomo decisiones. Entrego resultados.</span>
-          </div>
-        </div>
+        <h2 class="section-title">Experiencia senior. Velocidad de startup. Inteligencia artificial real.</h2>
+        <p>Forja Labs nació de una convicción: el software a medida no tiene que ser lento, caro, ni mediocre.</p>
+        <p><strong>Fundada por Luis Núñez</strong> — ingeniero informático con más de 21 años en tecnología, arquitecto senior, co-fundador de docta.io — y un equipo de agentes IA especializados, cada uno con un rol definido, personalidad y capacidad de ejecución.</p>
+        <h3>La diferencia: Agentes, no chatbots.</h3>
+        <p>No construimos herramientas de "productividad individual". Construimos <strong>equipos de IA</strong> que viven en tu arquitectura. Que consumen eventos. Que toman decisiones. Que corrigen bugs antes que tú los veas.</p>
+        <h3>Filosofía</h3>
+        <ul>
+          <li><strong>Resultados antes que proceso:</strong> Lo que funciona hoy es mejor que lo perfecto en 6 meses</li>
+          <li><strong>Autonomía real:</strong> Los agentes ejecutan dentro de límites claros</li>
+          <li><strong>Documentación como código:</strong> Tu software es transferible y mantenible</li>
+          <li><strong>IA como multiplicador:</strong> Potenciamos ingeniería, no la reemplazamos</li>
+        </ul>
+        <hr />
+        <p>Forja Labs no es una consultora. Es un equipo híbrido que construye software como debería construirse en 2026.</p>
+        <p>Hecho en Chile. Con inteligencia artificial. Con propósito.</p>
       </div>
       <div class="nosotros-team">
         <h3>El equipo</h3>
@@ -743,6 +746,40 @@ import Layout from '../layouts/Layout.astro';
 
   .nosotros-text strong {
     color: var(--text);
+  }
+
+  .nosotros-text h3 {
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .nosotros-text ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+  }
+
+  .nosotros-text ul li {
+    color: var(--text-muted);
+    padding: 0.35rem 0 0.35rem 1.25rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .nosotros-text ul li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent, #f97316);
+  }
+
+  .nosotros-text hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
   }
 
   .aurora-card {
