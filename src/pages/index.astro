@@ -88,7 +88,7 @@ import Layout from '../layouts/Layout.astro';
       <h2 class="section-title">Precios por proyecto.<br />Personalizados para ti.</h2>
       <p class="section-desc">No hay tarifas estándar. Cada proyecto es único. Cuéntanos qué necesitas y te respondemos con una propuesta ajustada a tu alcance.</p>
 
-      <div class="pricing-grid pricing-single">
+      <div class="pricing-grid pricing-two">
         <!-- Propuesta Personalizada -->
         <div class="pricing-card featured single-price">
           <div class="pricing-badge-popular">Hablemos de tu proyecto</div>
@@ -112,6 +112,20 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <a href="#contacto" class="btn btn-primary">Solicita tu proyecto →</a>
+        </div>
+
+        <!-- AIGEN Card -->
+        <div class="pricing-card featured aigen-card">
+          <div class="pricing-badge-popular aigen-popular">🔍 Análisis de Código</div>
+          <div class="pricing-badge blue">💎 AIGEN — Análisis Inteligente</div>
+          <p class="pricing-desc">Detecta problemas, identifica riesgos y obtén un plan de modernización en minutos. Sin código invasivo.</p>
+          <ul class="pricing-list aigen-list">
+            <li>✓ 47+ issues detectados</li>
+            <li>✓ Stack completo identificado</li>
+            <li>✓ Integraciones auditadas</li>
+            <li>✓ Plan prioritizado</li>
+          </ul>
+          <a href="/servicios/aigen" class="btn btn-blue-forja">Analizar código →</a>
         </div>
       </div>
     </div>
@@ -572,6 +586,20 @@ import Layout from '../layouts/Layout.astro';
     margin-right: auto;
   }
 
+  .pricing-grid.pricing-two {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 768px) {
+    .pricing-grid.pricing-two {
+      grid-template-columns: 1fr;
+      max-width: 500px;
+    }
+  }
+
   .pricing-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -613,6 +641,7 @@ import Layout from '../layouts/Layout.astro';
   .pricing-badge.green { color: var(--green); }
   .pricing-badge.yellow { color: var(--yellow); }
   .pricing-badge.red { color: var(--red); }
+  .pricing-badge.blue { color: #3B58B8; }
 
   .pricing-desc {
     color: var(--text-muted);
@@ -632,6 +661,46 @@ import Layout from '../layouts/Layout.astro';
   .pricing-list li {
     font-size: 0.9rem;
     color: var(--text-muted);
+  }
+
+  /* AIGEN blue card */
+  .aigen-card {
+    border-color: #3B58B8;
+    box-shadow: 0 0 40px rgba(59, 88, 184, 0.15);
+  }
+
+  .aigen-popular {
+    background: #3B58B8 !important;
+    color: white !important;
+  }
+
+  .aigen-list li {
+    color: #6b8fff !important;
+  }
+
+  .btn-blue-forja {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    width: 100%;
+    background: #3B58B8;
+    color: white;
+    text-decoration: none;
+  }
+
+  .btn-blue-forja:hover {
+    background: #4f6fcc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(59, 88, 184, 0.4);
+    color: white;
   }
 
   .service-add {
