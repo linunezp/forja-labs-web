@@ -113,6 +113,23 @@ import Layout from '../layouts/Layout.astro';
 
           <a href="#contacto" class="btn btn-primary">Solicita tu proyecto →</a>
         </div>
+
+        <!-- AIGEN Box -->
+        <div class="pricing-card aigen-box">
+          <div class="aigen-icon">
+            <span>📊</span>
+          </div>
+          <div class="pricing-badge aigen-badge">🤖 AIGEN — Análisis de Código</div>
+          <p class="pricing-desc">Detecta problemas de seguridad, identifica deuda técnica y obtén un plan de modernización de tu software en minutos.</p>
+          <ul class="pricing-list">
+            <li>✅ 47+ issues detectados</li>
+            <li>✅ Stack completo identificado</li>
+            <li>✅ Integrations auditadas</li>
+            <li>✅ Plan prioritizado</li>
+          </ul>
+          <a href="/servicios/aigen/" class="btn btn-aigen">Conocer más →</a>
+        </div>
+
       </div>
     </div>
   </section>
@@ -567,9 +584,10 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .pricing-grid.pricing-single {
-    max-width: 600px;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
 
   .pricing-card {
@@ -673,6 +691,55 @@ import Layout from '../layouts/Layout.astro';
   .pricing-card .btn {
     width: 100%;
     justify-content: center;
+  }
+
+  /* AIGEN Box */
+  .aigen-box {
+    border-color: #3B58B8;
+    background: rgba(59, 88, 184, 0.06);
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  }
+
+  .aigen-box:hover {
+    border-color: #7b9ef5;
+    background: rgba(59, 88, 184, 0.12);
+    box-shadow: 0 0 32px rgba(59, 88, 184, 0.2);
+  }
+
+  .aigen-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .aigen-badge {
+    color: #7b9ef5;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .btn-aigen {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    background: #3B58B8;
+    color: #fff;
+    width: 100%;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .btn-aigen:hover {
+    background: #4a6acc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(59, 88, 184, 0.4);
   }
 
   /* PROCESO */
