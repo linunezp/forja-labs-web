@@ -1,0 +1,577 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+
+<Layout
+  title="AIGEN — Análisis de Código | Forja Labs"
+  description="Detecta problemas de seguridad, identifica deuda técnica y obtén un plan de modernización de tu software en minutos con AIGEN."
+>
+  <!-- NAV -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="/" class="logo">⚒ Forja Labs</a>
+      <div class="nav-links">
+        <a href="/#servicios">Servicios</a>
+        <a href="/#proceso">Proceso</a>
+        <a href="/#nosotros">Nosotros</a>
+        <a href="/#contacto" class="btn btn-primary btn-sm">Solicita ahora</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container hero-inner">
+      <div class="hero-badge">🤖 AIGEN — Análisis de Código con IA</div>
+      <h1>
+        Analizamos tu código.<br />
+        <span class="accent">Tú decides qué hacer.</span>
+      </h1>
+      <p class="hero-desc">
+        Detecta problemas de seguridad, identifica deuda técnica y obtén un
+        plan de modernización de tu software — en minutos, sin instalaciones.
+      </p>
+      <div class="hero-ctas">
+        <a href="#como-funciona" class="btn btn-primary">Ver cómo funciona →</a>
+      </div>
+      <div class="trust-badges">
+        <span class="trust-badge">🔒 Código analizado en entorno seguro</span>
+        <span class="trust-badge">⚡ Resultados en minutos</span>
+        <span class="trust-badge">📊 47+ issues detectados por proyecto</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE PROPS -->
+  <section id="valor">
+    <div class="container">
+      <p class="section-label">Por qué AIGEN</p>
+      <h2 class="section-title">Tres ventajas que marcan<br />la diferencia</h2>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Rápido</h3>
+          <p>Análisis completo en minutos. Sin esperas de días ni cotizaciones interminables. Tienes el reporte antes de terminar tu café.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🛡️</div>
+          <h3>Seguro</h3>
+          <p>Tu código se analiza en un entorno aislado y controlado. No almacenamos tu repositorio. Tu IP es tuya.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💡</div>
+          <h3>Inteligente</h3>
+          <p>No es un linter genérico. AIGEN entiende contexto, detecta patrones de deuda técnica y genera un plan de acción priorizado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="como-funciona">
+    <div class="container">
+      <p class="section-label">Cómo funciona</p>
+      <h2 class="section-title">Cuatro pasos.<br />De tu código a tu plan.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Escaneamos tu código</h3>
+            <p>Nos envías acceso a tu repositorio o subes el archivo. AIGEN recibe tu proyecto y prepara el análisis.</p>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>AIGEN escanea</h3>
+            <p>Nuestro agente analiza stack, dependencias, vulnerabilidades, deuda técnica e integraciones en profundidad.</p>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Te entregamos una estimación de costos</h3>
+            <p>Recibes un reporte con los problemas detectados, su severidad y una estimación concreta de lo que costará resolverlos.</p>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <h3>Recibes el reporte</h3>
+            <p>Un plan de acción priorizado: qué arreglar primero, qué puede esperar y qué conviene modernizar de raíz.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="container">
+      <p class="section-label">Solicitar análisis</p>
+      <h2 class="section-title">¿Listo para conocer<br />el estado real de tu código?</h2>
+      <p class="section-desc">Déjanos tu contacto y te respondemos en menos de 24 horas con los próximos pasos.</p>
+
+      <form id="aigenForm" class="contact-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="tu@empresa.com" required />
+        </div>
+        <div class="form-group">
+          <label for="empresa">Empresa</label>
+          <input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa" required />
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="4" required minlength="10">Quiero analizar mi código con AIGEN</textarea>
+        </div>
+
+        <!-- Feedback Messages -->
+        <div id="formMessage" class="form-message" style="display: none;"></div>
+
+        <button type="submit" id="submitBtn" class="btn btn-primary">
+          <span id="submitText">Enviar →</span>
+          <span id="submitLoading" style="display: none;">Enviando...</span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById('aigenForm');
+    const messageDiv = document.getElementById('formMessage');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitLoading = document.getElementById('submitLoading');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      messageDiv.style.display = 'none';
+      messageDiv.className = 'form-message';
+
+      const email = document.getElementById('email').value.trim();
+      const empresa = document.getElementById('empresa').value.trim();
+      const mensaje = document.getElementById('mensaje').value.trim();
+
+      if (!email || !isValidEmail(email)) {
+        showMessage('Email inválido', 'error');
+        return;
+      }
+      if (!empresa) {
+        showMessage('Empresa requerida', 'error');
+        return;
+      }
+      if (!mensaje || mensaje.length < 10) {
+        showMessage('Mensaje debe tener al menos 10 caracteres', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitText.style.display = 'none';
+      submitLoading.style.display = 'inline';
+
+      try {
+        const response = await fetch('/.netlify/functions/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre: empresa,
+            email,
+            telefono: '',
+            asunto: '[AIGEN] Solicitud de análisis de código',
+            mensaje,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showMessage('¡Solicitud enviada! Te contactamos en menos de 24 horas.', 'success');
+          form.reset();
+          document.getElementById('mensaje').value = 'Quiero analizar mi código con AIGEN';
+        } else {
+          showMessage(result.error || 'Error al enviar. Intenta de nuevo.', 'error');
+        }
+      } catch (err) {
+        showMessage('Error al enviar. Verifica tu conexión.', 'error');
+        console.error('Form submission error:', err);
+      } finally {
+        submitBtn.disabled = false;
+        submitText.style.display = 'inline';
+        submitLoading.style.display = 'none';
+      }
+    });
+
+    function isValidEmail(email) {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(email);
+    }
+
+    function showMessage(message, type) {
+      messageDiv.textContent = message;
+      messageDiv.className = `form-message form-message-${type}`;
+      messageDiv.style.display = 'block';
+      messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <span class="logo">⚒ Forja Labs</span>
+      <span class="footer-copy">© 2026 Forja Labs. Hecho con IA en Chile 🇨🇱</span>
+      <div class="footer-links">
+        <a href="mailto:hola@forjalabs.cl">hola@forjalabs.cl</a>
+        <a href="https://instagram.com/forjalabs" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
+        <a href="https://tiktok.com/@forjalabs" target="_blank" rel="noopener noreferrer">🎵 TikTok</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover {
+    color: var(--text);
+  }
+
+  .btn-sm {
+    padding: 0.55rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  /* HERO */
+  #hero {
+    padding: 7rem 0 5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(59, 88, 184, 0.15);
+    border: 1px solid rgba(59, 88, 184, 0.4);
+    color: #7b9ef5;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+
+  #hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+
+  .accent {
+    color: #7b9ef5;
+  }
+
+  .hero-desc {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-ctas .btn-primary {
+    background: #3B58B8;
+    color: #fff;
+  }
+
+  .hero-ctas .btn-primary:hover {
+    background: #4a6acc;
+    box-shadow: 0 4px 20px rgba(59, 88, 184, 0.4);
+  }
+
+  .trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .trust-badge {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+  }
+
+  /* VALUE PROPS */
+  #valor {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .card:hover {
+    border-color: #3B58B8;
+    background: var(--bg-card-hover);
+  }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .card p {
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* HOW IT WORKS */
+  #como-funciona {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .step {
+    flex: 1;
+    min-width: 180px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .step-num {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #3B58B8;
+    opacity: 0.8;
+    line-height: 1;
+    margin-bottom: 1rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step-content h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-content p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .step-arrow {
+    font-size: 1.5rem;
+    color: var(--text-dim);
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  /* CONTACTO */
+  #contacto {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contact-form {
+    margin-top: 2.5rem;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  input, textarea {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--text-dim);
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #3B58B8;
+  }
+
+  .contact-form .btn-primary {
+    background: #3B58B8;
+    color: #fff;
+    align-self: flex-start;
+  }
+
+  .contact-form .btn-primary:hover {
+    background: #4a6acc;
+    box-shadow: 0 4px 20px rgba(59, 88, 184, 0.4);
+  }
+
+  .form-message {
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .form-message-success {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+  }
+
+  .form-message-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-copy {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover {
+    color: #7b9ef5;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .step-arrow { display: none; }
+    .steps { flex-direction: column; }
+    .footer-inner { flex-direction: column; text-align: center; }
+    .trust-badges { flex-direction: column; }
+  }
+</style>

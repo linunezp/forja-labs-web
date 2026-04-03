@@ -125,7 +125,7 @@ import Layout from '../layouts/Layout.astro';
             <li>✓ Integraciones auditadas</li>
             <li>✓ Plan prioritizado</li>
           </ul>
-          <a href="/servicios/aigen" class="btn btn-blue-forja">Analizar código →</a>
+          <a href="/servicios/aigen/" class="btn btn-blue-forja">Analizar código →</a>
         </div>
       </div>
     </div>
@@ -581,9 +581,10 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .pricing-grid.pricing-single {
-    max-width: 600px;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
 
   .pricing-grid.pricing-two {
