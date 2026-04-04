@@ -234,14 +234,32 @@ import Layout from '../../../layouts/Layout.astro';
 </Layout>
 
 <style>
+  /* === AIGEN PAGE: Blue + White Theme Override === */
+  /* Override global gold accent with blue everywhere on this page */
+  .section-label {
+    color: #3B58B8;
+  }
+
+  /* All .btn-primary on this page → blue (overrides global gold) */
+  .btn-primary {
+    background: #3B58B8 !important;
+    color: #fff !important;
+  }
+
+  .btn-primary:hover {
+    background: #4a6acc !important;
+    box-shadow: 0 4px 20px rgba(59, 88, 184, 0.4) !important;
+    transform: translateY(-1px);
+  }
+
   /* NAV */
   nav {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(10, 10, 10, 0.9);
+    background: rgba(30, 58, 138, 0.95);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1rem 0;
   }
 
@@ -254,7 +272,7 @@ import Layout from '../../../layouts/Layout.astro';
   .logo {
     font-size: 1.2rem;
     font-weight: 800;
-    color: var(--text);
+    color: #fff;
     letter-spacing: -0.02em;
   }
 
@@ -265,14 +283,14 @@ import Layout from '../../../layouts/Layout.astro';
   }
 
   .nav-links a {
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.95rem;
     font-weight: 500;
     transition: color 0.2s;
   }
 
   .nav-links a:hover {
-    color: var(--text);
+    color: #fff;
   }
 
   .btn-sm {
@@ -283,14 +301,15 @@ import Layout from '../../../layouts/Layout.astro';
   /* HERO */
   #hero {
     padding: 7rem 0 5rem;
-    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #1e3a8a 0%, #2d4fad 40%, #3B58B8 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .hero-badge {
     display: inline-block;
-    background: rgba(59, 88, 184, 0.15);
-    border: 1px solid rgba(59, 88, 184, 0.4);
-    color: #7b9ef5;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
     padding: 0.4rem 1rem;
     border-radius: 100px;
     font-size: 0.85rem;
@@ -304,15 +323,16 @@ import Layout from '../../../layouts/Layout.astro';
     line-height: 1.1;
     letter-spacing: -0.03em;
     margin-bottom: 1.5rem;
+    color: #fff;
   }
 
   .accent {
-    color: #7b9ef5;
+    color: #a5c0ff;
   }
 
   .hero-desc {
     font-size: 1.2rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.8);
     max-width: 600px;
     margin-bottom: 2.5rem;
     line-height: 1.7;
@@ -325,16 +345,6 @@ import Layout from '../../../layouts/Layout.astro';
     margin-bottom: 2.5rem;
   }
 
-  .hero-ctas .btn-primary {
-    background: #3B58B8;
-    color: #fff;
-  }
-
-  .hero-ctas .btn-primary:hover {
-    background: #4a6acc;
-    box-shadow: 0 4px 20px rgba(59, 88, 184, 0.4);
-  }
-
   .trust-badges {
     display: flex;
     flex-wrap: wrap;
@@ -344,9 +354,9 @@ import Layout from '../../../layouts/Layout.astro';
 
   .trust-badge {
     font-size: 0.8rem;
-    color: var(--text-muted);
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 0.35rem 0.85rem;
     border-radius: 100px;
   }
@@ -374,6 +384,7 @@ import Layout from '../../../layouts/Layout.astro';
   .card:hover {
     border-color: #3B58B8;
     background: var(--bg-card-hover);
+    box-shadow: 0 0 0 1px #3B58B8;
   }
 
   .card-icon {
@@ -385,6 +396,7 @@ import Layout from '../../../layouts/Layout.astro';
     font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 0.75rem;
+    color: #3B58B8;
   }
 
   .card p {
@@ -438,7 +450,7 @@ import Layout from '../../../layouts/Layout.astro';
 
   .step-arrow {
     font-size: 1.5rem;
-    color: var(--text-dim);
+    color: #3B58B8;
     align-self: center;
     flex-shrink: 0;
   }
@@ -465,7 +477,7 @@ import Layout from '../../../layouts/Layout.astro';
   label {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--text-muted);
+    color: #3B58B8;
   }
 
   input, textarea {
@@ -490,14 +502,7 @@ import Layout from '../../../layouts/Layout.astro';
   }
 
   .contact-form .btn-primary {
-    background: #3B58B8;
-    color: #fff;
     align-self: flex-start;
-  }
-
-  .contact-form .btn-primary:hover {
-    background: #4a6acc;
-    box-shadow: 0 4px 20px rgba(59, 88, 184, 0.4);
   }
 
   .form-message {
@@ -563,7 +568,7 @@ import Layout from '../../../layouts/Layout.astro';
   }
 
   .footer-links a:hover {
-    color: #7b9ef5;
+    color: #3B58B8;
   }
 
   /* RESPONSIVE */
