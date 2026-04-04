@@ -35,9 +35,9 @@ import Layout from '../../../layouts/Layout.astro';
         <a href="#como-funciona" class="btn btn-primary">Ver cómo funciona →</a>
       </div>
       <div class="trust-badges">
-        <span class="trust-badge">🔒 Código analizado en entorno seguro</span>
-        <span class="trust-badge">⚡ Resultados en minutos</span>
-        <span class="trust-badge">📊 47+ issues detectados por proyecto</span>
+        <span class="trust-badge"><span class="material-icons trust-icon">lock</span> Código analizado en entorno seguro</span>
+        <span class="trust-badge"><span class="material-icons trust-icon">flash_on</span> Resultados en minutos</span>
+        <span class="trust-badge"><span class="material-icons trust-icon">analytics</span> 47+ issues detectados por proyecto</span>
       </div>
     </div>
   </section>
@@ -49,17 +49,17 @@ import Layout from '../../../layouts/Layout.astro';
       <h2 class="section-title">Tres ventajas que marcan<br />la diferencia</h2>
       <div class="cards-grid">
         <div class="card">
-          <div class="card-icon">⚡</div>
+          <div class="card-icon"><span class="material-icons">flash_on</span></div>
           <h3>Rápido</h3>
           <p>Análisis completo en minutos. Sin esperas de días ni cotizaciones interminables. Tienes el reporte antes de terminar tu café.</p>
         </div>
         <div class="card">
-          <div class="card-icon">🛡️</div>
+          <div class="card-icon"><span class="material-icons">verified_user</span></div>
           <h3>Seguro</h3>
           <p>Tu código se analiza en un entorno aislado y controlado. No almacenamos tu repositorio. Tu IP es tuya.</p>
         </div>
         <div class="card">
-          <div class="card-icon">💡</div>
+          <div class="card-icon"><span class="material-icons">lightbulb</span></div>
           <h3>Inteligente</h3>
           <p>No es un linter genérico. AIGEN entiende contexto, detecta patrones de deuda técnica y genera un plan de acción priorizado.</p>
         </div>
@@ -75,6 +75,7 @@ import Layout from '../../../layouts/Layout.astro';
       <div class="steps">
         <div class="step">
           <div class="step-num">01</div>
+          <div class="step-icon"><span class="material-icons">upload_file</span></div>
           <div class="step-content">
             <h3>Escaneamos tu código</h3>
             <p>Nos envías acceso a tu repositorio o subes el archivo. AIGEN recibe tu proyecto y prepara el análisis.</p>
@@ -83,6 +84,7 @@ import Layout from '../../../layouts/Layout.astro';
         <div class="step-arrow">→</div>
         <div class="step">
           <div class="step-num">02</div>
+          <div class="step-icon"><span class="material-icons">analytics</span></div>
           <div class="step-content">
             <h3>AIGEN escanea</h3>
             <p>Nuestro agente analiza stack, dependencias, vulnerabilidades, deuda técnica e integraciones en profundidad.</p>
@@ -91,6 +93,7 @@ import Layout from '../../../layouts/Layout.astro';
         <div class="step-arrow">→</div>
         <div class="step">
           <div class="step-num">03</div>
+          <div class="step-icon"><span class="material-icons">trending_up</span></div>
           <div class="step-content">
             <h3>Te entregamos una estimación de costos</h3>
             <p>Recibes un reporte con los problemas detectados, su severidad y una estimación concreta de lo que costará resolverlos.</p>
@@ -99,6 +102,7 @@ import Layout from '../../../layouts/Layout.astro';
         <div class="step-arrow">→</div>
         <div class="step">
           <div class="step-num">04</div>
+          <div class="step-icon"><span class="material-icons">assignment</span></div>
           <div class="step-content">
             <h3>Recibes el reporte</h3>
             <p>Un plan de acción priorizado: qué arreglar primero, qué puede esperar y qué conviene modernizar de raíz.</p>
@@ -117,11 +121,11 @@ import Layout from '../../../layouts/Layout.astro';
 
       <form id="aigenForm" class="contact-form">
         <div class="form-group">
-          <label for="email">Email</label>
+          <label for="email"><span class="material-icons label-icon">mail_outline</span> Email</label>
           <input type="email" id="email" name="email" placeholder="tu@empresa.com" required />
         </div>
         <div class="form-group">
-          <label for="empresa">Empresa</label>
+          <label for="empresa"><span class="material-icons label-icon">business</span> Empresa</label>
           <input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa" required />
         </div>
         <div class="form-group">
@@ -133,7 +137,7 @@ import Layout from '../../../layouts/Layout.astro';
         <div id="formMessage" class="form-message" style="display: none;"></div>
 
         <button type="submit" id="submitBtn" class="btn btn-primary">
-          <span id="submitText">Enviar →</span>
+          <span id="submitText"><span class="material-icons btn-icon">send</span> Enviar</span>
           <span id="submitLoading" style="display: none;">Enviando...</span>
         </button>
       </form>
@@ -359,6 +363,14 @@ import Layout from '../../../layouts/Layout.astro';
     border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 0.35rem 0.85rem;
     border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .trust-icon {
+    font-size: 16px !important;
+    color: #fff;
   }
 
   /* VALUE PROPS */
@@ -390,6 +402,13 @@ import Layout from '../../../layouts/Layout.astro';
   .card-icon {
     font-size: 2rem;
     margin-bottom: 1rem;
+    color: #3B58B8;
+  }
+
+  .card-icon .material-icons {
+    font-size: 48px;
+    color: #3B58B8;
+    display: block;
   }
 
   .card h3 {
@@ -432,8 +451,17 @@ import Layout from '../../../layouts/Layout.astro';
     color: #3B58B8;
     opacity: 0.8;
     line-height: 1;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     font-variant-numeric: tabular-nums;
+  }
+
+  .step-icon {
+    margin-bottom: 1rem;
+  }
+
+  .step-icon .material-icons {
+    font-size: 36px;
+    color: #3B58B8;
   }
 
   .step-content h3 {
@@ -478,6 +506,14 @@ import Layout from '../../../layouts/Layout.astro';
     font-size: 0.9rem;
     font-weight: 600;
     color: #3B58B8;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .label-icon {
+    font-size: 18px !important;
+    color: #3B58B8;
   }
 
   input, textarea {
@@ -503,6 +539,13 @@ import Layout from '../../../layouts/Layout.astro';
 
   .contact-form .btn-primary {
     align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn-icon {
+    font-size: 18px !important;
   }
 
   .form-message {
