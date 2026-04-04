@@ -1,5 +1,5 @@
 /**
- * Forja Labs — Aurora Chatbot
+ * Forja Labs — Claudia Grant Chatbot
  * Flujo conversacional de contacto con derivación a WhatsApp
  */
 
@@ -148,7 +148,7 @@
     removeTyping();
 
     await appendBotMessage(
-      `Hola 👋 Soy Aurora, asistente de Forja Labs.<br>¿En qué puedo ayudarte hoy?`
+      `Hola 👋 Soy Claudia, Client Manager de Forja Labs.<br>¿En qué puedo ayudarte hoy?`
     );
 
     renderTopicButtons();
