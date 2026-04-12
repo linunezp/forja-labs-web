@@ -266,13 +266,13 @@ import Layout from '../layouts/Layout.astro';
     <div id="neuron-wrap"></div>
   </section>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script is:inline>
   (function () {
-    var wrap = document.getElementById('neuron-wrap');
-    if (!wrap || !window.THREE) return;
+    function initNeuron() {
+      var THREE = window.THREE;
+      var wrap  = document.getElementById('neuron-wrap');
+      if (!THREE || !wrap) return;
 
-    // ── Seeded LCG RNG (seed=42) ────────────────────────────────────────
     var seed = 42;
     function sr() {
       seed = (seed * 1664525 + 1013904223) & 0xffffffff;
@@ -451,6 +451,16 @@ import Layout from '../layouts/Layout.astro';
 
     updateCam();
     animate();
+    } // end initNeuron
+
+    if (window.THREE) {
+      initNeuron();
+    } else {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      s.onload = initNeuron;
+      document.head.appendChild(s);
+    }
   }());
   </script>
 
