@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neuron Animation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // ── Seeded RNG — LCG (seed=42 for deterministic branches) ─────────────
+    let seed = 42;
+    function seededRand() {
+      seed = (seed * 1664525 + 1013904223) & 0xffffffff;
+      return (seed >>> 0) / 0xffffffff;
+    }
+
+    // ── Renderer ──────────────────────────────────────────────────────────
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // ── Scene ─────────────────────────────────────────────────────────────
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
+    // Subtle fog for depth — distant branches fade to black
+    scene.fog = new THREE.FogExp2(0x000000, 0.022);
+
+    // ── Camera ────────────────────────────────────────────────────────────
+    const camera = new THREE.PerspectiveCamera(
+      60,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      200
+    );
+
+    // ── Lights ────────────────────────────────────────────────────────────
+    scene.add(new THREE.AmbientLight(0x0a1520, 0.3));
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    dirLight.position.set(5, 8, 5);
+    scene.add(dirLight);
+
+    // Central soma point light — stored globally so we can animate it
+    const somaLight = new THREE.PointLight(0xffffff, 3, 15);
+    scene.add(somaLight);
+
+    // ── Soma (cell body) ──────────────────────────────────────────────────
+    const somaMat = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      emissive: 0xffffff,
+      emissiveIntensity: 1.2,
+      roughness: 0.3,
+      metalness: 0.1
+    });
+    const somaMesh = new THREE.Mesh(
+      new THREE.SphereGeometry(0.8, 32, 32),
+      somaMat
+    );
+    scene.add(somaMesh);
+
+    // Halo 1 — purple, semi-transparent
+    scene.add(new THREE.Mesh(
+      new THREE.SphereGeometry(1.4, 32, 32),
+      new THREE.MeshStandardMaterial({
+        color: 0x9966ff,
+        transparent: true,
+        opacity: 0.15,
+        side: THREE.FrontSide,
+        depthWrite: false
+      })
+    ));
+
+    // Halo 2 — wider, very faint
+    scene.add(new THREE.Mesh(
+      new THREE.SphereGeometry(2.2, 32, 32),
+      new THREE.MeshStandardMaterial({
+        color: 0x6633cc,
+        transparent: true,
+        opacity: 0.06,
+        side: THREE.FrontSide,
+        depthWrite: false
+      })
+    ));
+
+    // ── createWanderingPath — exact spec signature ─────────────────────────
+    function createWanderingPath(start, dir, length, segments, jitterScale, endPoint) {
+      let pts = [start.clone()];
+      let curr = start.clone();
+      let cDir = dir.clone().normalize();
+      for (let i = 0; i < segments; i++) {
+        cDir.x += (seededRand() - 0.5) * jitterScale;
+        cDir.y += (seededRand() - 0.5) * jitterScale;
+        cDir.z += (seededRand() - 0.5) * jitterScale;
+        cDir.normalize();
+        curr = curr.clone().add(cDir.clone().multiplyScalar(length / segments));
+        pts.push(curr);
+      }
+      if (endPoint) {
+        const approach = endPoint.clone().add(new THREE.Vector3(-1.5, 0, 0));
+        pts[pts.length - 1] = approach;
+        pts.push(endPoint.clone());
+      }
+      return new THREE.CatmullRomCurve3(pts);
+    }
+
+    // ── Branch color tables (lighter at greater depth) ────────────────────
+    const BRANCH_COLORS    = [0x1a7a7a, 0x1d8888, 0x209696, 0x22a2a2];
+    const BRANCH_EMISSIVES = [0x0a3333, 0x0c3a3a, 0x0f4040, 0x124545];
+
+    // ── createBranch — recursive TubeGeometry tree ────────────────────────
+    function createBranch(origin, direction, length, depth, maxDepth) {
+      if (depth >= maxDepth) return;
+
+      const segments  = Math.max(6, 18 - depth * 4);
+      const jitter    = 0.28 + depth * 0.12;
+      const curve     = createWanderingPath(origin, direction, length, segments, jitter);
+
+      const radius    = 0.08 * Math.pow(0.6, depth);
+      const radSegs   = 6;
+      const tubeSeg   = Math.max(5, 20 - depth * 5);
+
+      const geo = new THREE.TubeGeometry(curve, tubeSeg, radius, radSegs, false);
+      const mat = new THREE.MeshStandardMaterial({
+        color:     BRANCH_COLORS[Math.min(depth, BRANCH_COLORS.length - 1)],
+        roughness: 0.8,
+        metalness: 0.1,
+        emissive:  BRANCH_EMISSIVES[Math.min(depth, BRANCH_EMISSIVES.length - 1)]
+      });
+      scene.add(new THREE.Mesh(geo, mat));
+
+      const endPt      = curve.getPoint(1);
+      const numKids    = Math.floor(seededRand() * 2) + 2; // 2 or 3
+      const childLen   = length * (0.5 + seededRand() * 0.2);
+
+      for (let i = 0; i < numKids; i++) {
+        // Deviate direction by 25°–45° around a random perpendicular axis
+        const angle = 0.44 + seededRand() * 0.35;
+        const perp  = new THREE.Vector3(
+          seededRand() - 0.5,
+          seededRand() - 0.5,
+          seededRand() - 0.5
+        ).normalize();
+        const childDir = direction.clone().applyAxisAngle(perp, angle).normalize();
+        createBranch(endPt.clone(), childDir, childLen, depth + 1, maxDepth);
+      }
+    }
+
+    // ── Axon — long main branch pointing left ─────────────────────────────
+    // Built tip→soma so getPoint(0)=tip, getPoint(1)=soma.
+    // The pulse simply advances t 0→1 to travel toward the soma.
+    const axonTip = new THREE.Vector3(-15, 0, 0);
+    const axonDir = new THREE.Vector3(1, 0, 0);
+    const axonCurve = createWanderingPath(
+      axonTip, axonDir, 15, 20, 0.15,
+      new THREE.Vector3(0, 0, 0)   // endPoint = soma
+    );
+
+    const axonGeo = new THREE.TubeGeometry(axonCurve, 40, 0.10, 6, false);
+    const axonMat = new THREE.MeshStandardMaterial({
+      color: 0x1a7a7a, roughness: 0.8, metalness: 0.1, emissive: 0x0a3333
+    });
+    scene.add(new THREE.Mesh(axonGeo, axonMat));
+
+    // ── 10 dendrite branches — Fibonacci sphere spread ────────────────────
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+    const branchDirs  = [];
+    for (let i = 0; i < 14; i++) {           // sample 14, keep ~10 after filter
+      const y = 1 - (i / 13) * 2;
+      const r = Math.sqrt(Math.max(0, 1 - y * y));
+      const t = goldenAngle * i;
+      const d = new THREE.Vector3(r * Math.cos(t), y, r * Math.sin(t)).normalize();
+      // Skip directions too close to the axon axis (negative-X)
+      if (d.x < -0.7) continue;
+      branchDirs.push(d);
+      if (branchDirs.length >= 10) break;
+    }
+
+    branchDirs.forEach(dir => {
+      const len = 3.5 + seededRand() * 3;
+      createBranch(new THREE.Vector3(0, 0, 0), dir, len, 0, 3);
+    });
+
+    // ── Pulse mesh (travels along axon) ───────────────────────────────────
+    const pulseMat  = new THREE.MeshStandardMaterial({
+      color: 0xff6600,
+      emissive: 0xff6600,
+      emissiveIntensity: 2.5
+    });
+    const pulseMesh = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 8), pulseMat);
+    scene.add(pulseMesh);
+
+    // Orange point light rides with the pulse
+    const pulseLight = new THREE.PointLight(0xff6600, 4, 6);
+    pulseMesh.add(pulseLight);
+
+    let pulseT = 0;    // 0 = axon tip, 1 = soma
+
+    // ── Manual OrbitControls ──────────────────────────────────────────────
+    const orb = { theta: 0.35, phi: 1.35, radius: 12 };
+    let isDragging  = false;
+    let lastMouse   = { x: 0, y: 0 };
+    let autoRotate  = true;
+
+    const cvs = renderer.domElement;
+
+    cvs.addEventListener('mousedown', e => {
+      isDragging = true;
+      autoRotate = false;
+      lastMouse  = { x: e.clientX, y: e.clientY };
+    });
+    cvs.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      orb.theta -= (e.clientX - lastMouse.x) * 0.005;
+      orb.phi   -= (e.clientY - lastMouse.y) * 0.005;
+      orb.phi    = Math.max(0.1, Math.min(Math.PI - 0.1, orb.phi));
+      lastMouse  = { x: e.clientX, y: e.clientY };
+    });
+    cvs.addEventListener('mouseup',    () => { isDragging = false; setTimeout(() => { autoRotate = true; }, 2000); });
+    cvs.addEventListener('mouseleave', () => { isDragging = false; });
+    cvs.addEventListener('wheel', e => {
+      orb.radius = Math.max(4, Math.min(30, orb.radius + e.deltaY * 0.01));
+    }, { passive: true });
+
+    // Touch support
+    cvs.addEventListener('touchstart', e => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        autoRotate = false;
+        lastMouse  = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    }, { passive: true });
+    cvs.addEventListener('touchmove', e => {
+      if (!isDragging || e.touches.length !== 1) return;
+      orb.theta -= (e.touches[0].clientX - lastMouse.x) * 0.005;
+      orb.phi   -= (e.touches[0].clientY - lastMouse.y) * 0.005;
+      orb.phi    = Math.max(0.1, Math.min(Math.PI - 0.1, orb.phi));
+      lastMouse  = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }, { passive: true });
+    cvs.addEventListener('touchend', () => {
+      isDragging = false;
+      setTimeout(() => { autoRotate = true; }, 2000);
+    });
+
+    function updateCamera() {
+      camera.position.setFromSphericalCoords(orb.radius, orb.phi, orb.theta);
+      camera.lookAt(0, 0, 0);
+    }
+
+    // ── Resize ────────────────────────────────────────────────────────────
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ── Animation loop ────────────────────────────────────────────────────
+    const clock = new THREE.Clock();
+    const BASE_SOMA_INTENSITY = 3;
+    let somaFlash = 0;   // 0..1, decays after pulse arrival
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const delta = Math.min(clock.getDelta(), 0.05);
+
+      // ── Advance pulse along axon (tip → soma) ──
+      pulseT += 0.08 * delta;
+      if (pulseT >= 1.0) {
+        pulseT -= 1.0;
+        somaFlash = 1.0;  // full flash on loop reset
+      }
+
+      const pulsePos = axonCurve.getPoint(Math.min(pulseT, 1));
+      pulseMesh.position.copy(pulsePos);
+
+      // Ramp up flash as pulse approaches soma (last 5% of journey)
+      if (pulseT > 0.95) {
+        somaFlash = Math.max(somaFlash, (pulseT - 0.95) / 0.05);
+      }
+
+      // ── Soma flash decay ──
+      if (somaFlash > 0) {
+        const fi = somaFlash;
+        somaLight.intensity        = BASE_SOMA_INTENSITY + fi * 9;
+        somaLight.color.setHex(fi > 0.4 ? 0xffffff : 0xcc88ff);
+        somaMat.emissiveIntensity  = 1.2 + fi * 2.5;
+        somaFlash = Math.max(0, somaFlash - delta * 3.5);
+      } else {
+        somaLight.intensity       = BASE_SOMA_INTENSITY;
+        somaLight.color.setHex(0xffffff);
+        somaMat.emissiveIntensity = 1.2;
+      }
+
+      // ── Camera auto-rotate ──
+      if (autoRotate && !isDragging) {
+        orb.theta += 0.003;
+      }
+      updateCamera();
+
+      renderer.render(scene, camera);
+    }
+
+    updateCamera();
+    animate();
+  </script>
+</body>
+</html>
