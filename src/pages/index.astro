@@ -273,192 +273,269 @@ import Layout from '../layouts/Layout.astro';
       var wrap  = document.getElementById('neuron-wrap');
       if (!THREE || !wrap) return;
 
-    var seed = 42;
-    function sr() {
-      seed = (seed * 1664525 + 1013904223) & 0xffffffff;
-      return (seed >>> 0) / 0xffffffff;
-    }
-
-    // ── Renderer ────────────────────────────────────────────────────────
-    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(wrap.clientWidth, wrap.clientHeight);
-    wrap.appendChild(renderer.domElement);
-
-    // ── Scene ────────────────────────────────────────────────────────────
-    var scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
-    scene.fog = new THREE.FogExp2(0x000000, 0.022);
-
-    // ── Camera ───────────────────────────────────────────────────────────
-    var camera = new THREE.PerspectiveCamera(60, wrap.clientWidth / wrap.clientHeight, 0.1, 200);
-
-    // ── Lights ───────────────────────────────────────────────────────────
-    scene.add(new THREE.AmbientLight(0x0a1520, 0.3));
-    var dl = new THREE.DirectionalLight(0xffffff, 0.6);
-    dl.position.set(5, 8, 5);
-    scene.add(dl);
-
-    var somaLight = new THREE.PointLight(0xffffff, 3, 15);
-    scene.add(somaLight);
-
-    // ── Soma ─────────────────────────────────────────────────────────────
-    var somaMat = new THREE.MeshStandardMaterial({
-      color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 1.2,
-      roughness: 0.3, metalness: 0.1
-    });
-    scene.add(new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), somaMat));
-
-    scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.4, 32, 32),
-      new THREE.MeshStandardMaterial({ color:0x9966ff, transparent:true, opacity:0.15, side:THREE.FrontSide, depthWrite:false })));
-    scene.add(new THREE.Mesh(new THREE.SphereGeometry(2.2, 32, 32),
-      new THREE.MeshStandardMaterial({ color:0x6633cc, transparent:true, opacity:0.06, side:THREE.FrontSide, depthWrite:false })));
-
-    // ── createWanderingPath ───────────────────────────────────────────────
-    function createWanderingPath(start, dir, length, segments, jitterScale, endPoint) {
-      var pts = [start.clone()];
-      var curr = start.clone();
-      var cDir = dir.clone().normalize();
-      for (var i = 0; i < segments; i++) {
-        cDir.x += (sr() - 0.5) * jitterScale;
-        cDir.y += (sr() - 0.5) * jitterScale;
-        cDir.z += (sr() - 0.5) * jitterScale;
-        cDir.normalize();
-        curr = curr.clone().add(cDir.clone().multiplyScalar(length / segments));
-        pts.push(curr);
+      var seed = 42;
+      function sr() {
+        seed = (seed * 1664525 + 1013904223) & 0xffffffff;
+        return (seed >>> 0) / 0xffffffff;
       }
-      if (endPoint) {
-        var approach = endPoint.clone().add(new THREE.Vector3(-1.5, 0, 0));
-        pts[pts.length - 1] = approach;
-        pts.push(endPoint.clone());
-      }
-      return new THREE.CatmullRomCurve3(pts);
-    }
 
-    var COLORS    = [0x1a7a7a, 0x1d8888, 0x209696, 0x22a2a2];
-    var EMISSIVES = [0x0a3333, 0x0c3a3a, 0x0f4040, 0x124545];
+      // ── Renderer ──────────────────────────────────────────────────────
+      var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+      wrap.appendChild(renderer.domElement);
 
-    // ── createBranch ─────────────────────────────────────────────────────
-    function createBranch(origin, direction, length, depth, maxDepth) {
-      if (depth >= maxDepth) return;
-      var curve = createWanderingPath(origin, direction, length, Math.max(6, 18 - depth*4), 0.28 + depth*0.12);
-      var geo   = new THREE.TubeGeometry(curve, Math.max(5, 20 - depth*5), 0.08 * Math.pow(0.6, depth), 6, false);
-      var mat   = new THREE.MeshStandardMaterial({
-        color: COLORS[Math.min(depth, 3)], roughness: 0.8, metalness: 0.1, emissive: EMISSIVES[Math.min(depth, 3)]
+      // ── Scene ─────────────────────────────────────────────────────────
+      var scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x000000);
+      scene.fog = new THREE.FogExp2(0x000000, 0.022);
+
+      // ── Camera ────────────────────────────────────────────────────────
+      var camera = new THREE.PerspectiveCamera(60, wrap.clientWidth / wrap.clientHeight, 0.1, 200);
+
+      // ── Lights ────────────────────────────────────────────────────────
+      scene.add(new THREE.AmbientLight(0x0a1520, 0.3));
+      var dl = new THREE.DirectionalLight(0xffffff, 0.5);
+      dl.position.set(5, 8, 5);
+      scene.add(dl);
+      var somaLight = new THREE.PointLight(0xffffff, 3, 15);
+      scene.add(somaLight);
+
+      // ── Soma ──────────────────────────────────────────────────────────
+      var somaMat = new THREE.MeshStandardMaterial({
+        color:0xffffff, emissive:0xffffff, emissiveIntensity:1.2, roughness:0.3, metalness:0.1
       });
-      scene.add(new THREE.Mesh(geo, mat));
-      var endPt  = curve.getPoint(1);
-      var nKids  = Math.floor(sr() * 2) + 2;
-      var cLen   = length * (0.5 + sr() * 0.2);
-      for (var i = 0; i < nKids; i++) {
-        var perp = new THREE.Vector3(sr()-0.5, sr()-0.5, sr()-0.5).normalize();
-        createBranch(endPt.clone(), direction.clone().applyAxisAngle(perp, 0.44 + sr()*0.35).normalize(), cLen, depth+1, maxDepth);
-      }
-    }
+      scene.add(new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), somaMat));
+      scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.4, 32, 32),
+        new THREE.MeshStandardMaterial({color:0x9966ff,transparent:true,opacity:0.15,side:THREE.FrontSide,depthWrite:false})));
+      scene.add(new THREE.Mesh(new THREE.SphereGeometry(2.2, 32, 32),
+        new THREE.MeshStandardMaterial({color:0x6633cc,transparent:true,opacity:0.06,side:THREE.FrontSide,depthWrite:false})));
 
-    // ── Axon (tip → soma, so t=0 is tip, t=1 is soma) ────────────────────
-    var axonCurve = createWanderingPath(
-      new THREE.Vector3(-15,0,0), new THREE.Vector3(1,0,0), 15, 20, 0.15, new THREE.Vector3(0,0,0)
-    );
-    scene.add(new THREE.Mesh(
-      new THREE.TubeGeometry(axonCurve, 40, 0.10, 6, false),
-      new THREE.MeshStandardMaterial({ color:0x1a7a7a, roughness:0.8, metalness:0.1, emissive:0x0a3333 })
-    ));
-
-    // ── 10 dendrite branches (Fibonacci sphere) ───────────────────────────
-    var goldenAngle = Math.PI * (3 - Math.sqrt(5));
-    var count = 0;
-    for (var i = 0; i < 14 && count < 10; i++) {
-      var yy = 1 - (i/13)*2, rr = Math.sqrt(Math.max(0, 1 - yy*yy)), tt = goldenAngle*i;
-      var d  = new THREE.Vector3(rr*Math.cos(tt), yy, rr*Math.sin(tt)).normalize();
-      if (d.x < -0.7) continue;
-      createBranch(new THREE.Vector3(0,0,0), d, 3.5 + sr()*3, 0, 3);
-      count++;
-    }
-
-    // ── Pulse ────────────────────────────────────────────────────────────
-    var pulseMat  = new THREE.MeshStandardMaterial({ color:0xff6600, emissive:0xff6600, emissiveIntensity:2.5 });
-    var pulseMesh = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 8), pulseMat);
-    scene.add(pulseMesh);
-    pulseMesh.add(new THREE.PointLight(0xff6600, 4, 6));
-    var pulseT = 0;
-
-    // ── Manual orbit controls ─────────────────────────────────────────────
-    var orb = { theta:0.35, phi:1.35, radius:12 };
-    var isDragging = false, autoRot = true, lastMx = {x:0,y:0};
-    var cvs = renderer.domElement;
-
-    cvs.addEventListener('mousedown', function(e){ isDragging=true; autoRot=false; lastMx={x:e.clientX,y:e.clientY}; });
-    cvs.addEventListener('mousemove', function(e){
-      if(!isDragging) return;
-      orb.theta -= (e.clientX-lastMx.x)*0.005;
-      orb.phi   -= (e.clientY-lastMx.y)*0.005;
-      orb.phi    = Math.max(0.1, Math.min(Math.PI-0.1, orb.phi));
-      lastMx={x:e.clientX,y:e.clientY};
-    });
-    cvs.addEventListener('mouseup',    function(){ isDragging=false; setTimeout(function(){ autoRot=true; }, 2000); });
-    cvs.addEventListener('mouseleave', function(){ isDragging=false; });
-    cvs.addEventListener('wheel', function(e){ orb.radius=Math.max(4,Math.min(30,orb.radius+e.deltaY*0.01)); }, {passive:true});
-
-    cvs.addEventListener('touchstart', function(e){
-      if(e.touches.length===1){ isDragging=true; autoRot=false; lastMx={x:e.touches[0].clientX,y:e.touches[0].clientY}; }
-    }, {passive:true});
-    cvs.addEventListener('touchmove', function(e){
-      if(!isDragging||e.touches.length!==1) return;
-      orb.theta -= (e.touches[0].clientX-lastMx.x)*0.005;
-      orb.phi   -= (e.touches[0].clientY-lastMx.y)*0.005;
-      orb.phi    = Math.max(0.1, Math.min(Math.PI-0.1, orb.phi));
-      lastMx={x:e.touches[0].clientX,y:e.touches[0].clientY};
-    }, {passive:true});
-    cvs.addEventListener('touchend', function(){ isDragging=false; setTimeout(function(){ autoRot=true; }, 2000); });
-
-    // ── Resize ────────────────────────────────────────────────────────────
-    if (typeof ResizeObserver !== 'undefined') {
-      new ResizeObserver(function(){
-        var w=wrap.clientWidth, h=wrap.clientHeight;
-        camera.aspect=w/h; camera.updateProjectionMatrix(); renderer.setSize(w,h);
-      }).observe(wrap);
-    }
-
-    function updateCam(){ camera.position.setFromSphericalCoords(orb.radius,orb.phi,orb.theta); camera.lookAt(0,0,0); }
-
-    // ── Animate ───────────────────────────────────────────────────────────
-    var BASE_SOMA = 3, somaFlash = 0, prev = performance.now();
-    function animate(){
-      requestAnimationFrame(animate);
-      var now = performance.now(), delta = Math.min((now-prev)/1000, 0.05); prev = now;
-
-      pulseT += 0.08 * delta;
-      if (pulseT >= 1.0){ pulseT -= 1.0; somaFlash = 1.0; }
-      pulseMesh.position.copy(axonCurve.getPoint(Math.min(pulseT, 1)));
-      if (pulseT > 0.95) somaFlash = Math.max(somaFlash, (pulseT-0.95)/0.05);
-
-      if (somaFlash > 0){
-        somaLight.intensity = BASE_SOMA + somaFlash*9;
-        somaLight.color.setHex(somaFlash > 0.4 ? 0xffffff : 0xcc88ff);
-        somaMat.emissiveIntensity = 1.2 + somaFlash*2.5;
-        somaFlash = Math.max(0, somaFlash - delta*3.5);
-      } else {
-        somaLight.intensity = BASE_SOMA;
-        somaLight.color.setHex(0xffffff);
-        somaMat.emissiveIntensity = 1.2;
+      // ── createWanderingPath ────────────────────────────────────────────
+      function createWanderingPath(start, dir, length, segments, jitterScale, endPoint) {
+        var pts=[start.clone()], curr=start.clone(), cDir=dir.clone().normalize();
+        for (var i=0; i<segments; i++) {
+          cDir.x+=(sr()-0.5)*jitterScale; cDir.y+=(sr()-0.5)*jitterScale; cDir.z+=(sr()-0.5)*jitterScale;
+          cDir.normalize();
+          curr=curr.clone().add(cDir.clone().multiplyScalar(length/segments));
+          pts.push(curr);
+        }
+        if (endPoint) {
+          pts[pts.length-1]=endPoint.clone().add(new THREE.Vector3(-1.5,0,0));
+          pts.push(endPoint.clone());
+        }
+        return new THREE.CatmullRomCurve3(pts);
       }
 
-      if (autoRot && !isDragging) orb.theta += 0.003;
-      updateCam();
-      renderer.render(scene, camera);
-    }
+      var COLORS    = [0x1a7a7a,0x1d8888,0x209696,0x22a2a2];
+      var EMISSIVES = [0x0a3333,0x0c3a3a,0x0f4040,0x124545];
 
-    updateCam();
-    animate();
+      // ── Dendrite color palette ─────────────────────────────────────────
+      var DEND_COLORS  = [0x00ffff,0x00ff80,0xaaff00,0xff00ff,0x8800ff,0x0088ff,0xff0088,0x44ff00,0xff8800,0xff44cc];
+      var dendColorIdx = 0;
+      var branchData   = [];
+
+      // ── createBranch — color inherited by sub-branches ─────────────────
+      function createBranch(origin, direction, length, depth, maxDepth, waveColor) {
+        if (depth >= maxDepth) return;
+        if (!waveColor) {
+          waveColor = DEND_COLORS[dendColorIdx % DEND_COLORS.length];
+          dendColorIdx++;
+        }
+        var curve  = createWanderingPath(origin, direction, length, Math.max(6,18-depth*4), 0.28+depth*0.12);
+        var origEm = EMISSIVES[Math.min(depth,3)];
+        var mat    = new THREE.MeshStandardMaterial({
+          color:COLORS[Math.min(depth,3)], roughness:0.8, metalness:0.1, emissive:origEm
+        });
+        scene.add(new THREE.Mesh(
+          new THREE.TubeGeometry(curve, Math.max(5,20-depth*5), 0.08*Math.pow(0.6,depth), 6, false), mat
+        ));
+        branchData.push({curve:curve, mat:mat, depth:depth, color:waveColor, origEmissive:origEm});
+        var endPt=curve.getPoint(1), nKids=Math.floor(sr()*2)+2, cLen=length*(0.5+sr()*0.2);
+        for (var i=0; i<nKids; i++) {
+          var perp=new THREE.Vector3(sr()-0.5,sr()-0.5,sr()-0.5).normalize();
+          createBranch(endPt.clone(), direction.clone().applyAxisAngle(perp,0.44+sr()*0.35).normalize(),
+            cLen, depth+1, maxDepth, waveColor);
+        }
+      }
+
+      // ── Axon (tip → soma, t=0 tip / t=1 soma) ─────────────────────────
+      var axonCurve = createWanderingPath(
+        new THREE.Vector3(-15,0,0), new THREE.Vector3(1,0,0), 15, 20, 0.15, new THREE.Vector3(0,0,0)
+      );
+      scene.add(new THREE.Mesh(
+        new THREE.TubeGeometry(axonCurve, 40, 0.09, 6, false),
+        new THREE.MeshStandardMaterial({color:0x1a7a7a,roughness:0.8,metalness:0.1,emissive:0x0a3333})
+      ));
+
+      // ── 10 dendrite branches (Fibonacci sphere) ────────────────────────
+      var goldenAngle=Math.PI*(3-Math.sqrt(5)), cnt=0;
+      for (var i=0; i<14&&cnt<10; i++) {
+        var yy=1-(i/13)*2, rr=Math.sqrt(Math.max(0,1-yy*yy)), tt=goldenAngle*i;
+        var d=new THREE.Vector3(rr*Math.cos(tt),yy,rr*Math.sin(tt)).normalize();
+        if (d.x<-0.7) continue;
+        createBranch(new THREE.Vector3(0,0,0), d, 3.5+sr()*3, 0, 3);
+        cnt++;
+      }
+
+      // ── Comet head ────────────────────────────────────────────────────
+      var pulseHead = new THREE.Mesh(
+        new THREE.SphereGeometry(0.28, 10, 10),
+        new THREE.MeshStandardMaterial({
+          color:0xffffff, emissive:0xffffff, emissiveIntensity:4,
+          transparent:true, opacity:1, blending:THREE.AdditiveBlending, depthWrite:false
+        })
+      );
+      scene.add(pulseHead);
+      pulseHead.add(new THREE.PointLight(0xffffff, 10, 14));
+
+      // ── Comet tail (14 trailing particles) ────────────────────────────
+      var TRAIL_N = 14;
+      var trailMeshes = [];
+      for (var ti=0; ti<TRAIL_N; ti++) {
+        var frac=(ti+1)/TRAIL_N;
+        var tMesh=new THREE.Mesh(
+          new THREE.SphereGeometry(0.28*(1-frac*0.85), 6, 6),
+          new THREE.MeshStandardMaterial({
+            color:0xff4400, emissive:0xff2200,
+            emissiveIntensity:3*(1-frac),
+            transparent:true, opacity:Math.pow(1-frac, 0.6),
+            blending:THREE.AdditiveBlending, depthWrite:false
+          })
+        );
+        scene.add(tMesh);
+        trailMeshes.push({mesh:tMesh, offset:(ti+1)*0.022});
+      }
+      var pulseT = 0;
+
+      // ── Dendrite wave system ───────────────────────────────────────────
+      var dendWaves     = [];
+      var waveTriggered = false;
+
+      function triggerDendriteWaves() {
+        for (var wi=0; wi<dendWaves.length; wi++) {
+          if (dendWaves[wi].lightMesh) scene.remove(dendWaves[wi].lightMesh);
+        }
+        dendWaves = [];
+        for (var bi=0; bi<branchData.length; bi++) {
+          var b=branchData[bi], lMesh=null;
+          if (b.depth <= 1) {
+            lMesh = new THREE.Mesh(
+              new THREE.SphereGeometry(0.12, 6, 6),
+              new THREE.MeshStandardMaterial({
+                color:b.color, emissive:b.color, emissiveIntensity:4,
+                transparent:true, blending:THREE.AdditiveBlending, depthWrite:false
+              })
+            );
+            lMesh.add(new THREE.PointLight(b.color, 5, 5));
+            scene.add(lMesh);
+          }
+          dendWaves.push({curve:b.curve, mat:b.mat, color:b.color,
+            origEmissive:b.origEmissive, t:0, lightMesh:lMesh, done:false});
+        }
+      }
+
+      // ── Orbit controls ────────────────────────────────────────────────
+      var orb={theta:0.35,phi:1.35,radius:12};
+      var isDragging=false, autoRot=true, lastMx={x:0,y:0};
+      var cvs=renderer.domElement;
+      cvs.addEventListener('mousedown',function(e){isDragging=true;autoRot=false;lastMx={x:e.clientX,y:e.clientY};});
+      cvs.addEventListener('mousemove',function(e){
+        if(!isDragging)return;
+        orb.theta-=(e.clientX-lastMx.x)*0.005; orb.phi-=(e.clientY-lastMx.y)*0.005;
+        orb.phi=Math.max(0.1,Math.min(Math.PI-0.1,orb.phi)); lastMx={x:e.clientX,y:e.clientY};
+      });
+      cvs.addEventListener('mouseup',function(){isDragging=false;setTimeout(function(){autoRot=true;},2000);});
+      cvs.addEventListener('mouseleave',function(){isDragging=false;});
+      cvs.addEventListener('wheel',function(e){orb.radius=Math.max(4,Math.min(30,orb.radius+e.deltaY*0.01));},{passive:true});
+      cvs.addEventListener('touchstart',function(e){if(e.touches.length===1){isDragging=true;autoRot=false;lastMx={x:e.touches[0].clientX,y:e.touches[0].clientY};}},{passive:true});
+      cvs.addEventListener('touchmove',function(e){
+        if(!isDragging||e.touches.length!==1)return;
+        orb.theta-=(e.touches[0].clientX-lastMx.x)*0.005; orb.phi-=(e.touches[0].clientY-lastMx.y)*0.005;
+        orb.phi=Math.max(0.1,Math.min(Math.PI-0.1,orb.phi)); lastMx={x:e.touches[0].clientX,y:e.touches[0].clientY};
+      },{passive:true});
+      cvs.addEventListener('touchend',function(){isDragging=false;setTimeout(function(){autoRot=true;},2000);});
+
+      // ── Resize ────────────────────────────────────────────────────────
+      if (typeof ResizeObserver!=='undefined') {
+        new ResizeObserver(function(){
+          var w=wrap.clientWidth,h=wrap.clientHeight;
+          camera.aspect=w/h; camera.updateProjectionMatrix(); renderer.setSize(w,h);
+        }).observe(wrap);
+      }
+
+      function updateCam(){camera.position.setFromSphericalCoords(orb.radius,orb.phi,orb.theta);camera.lookAt(0,0,0);}
+
+      // ── Animate ───────────────────────────────────────────────────────
+      var BASE_SOMA=3, somaFlash=0, prev=performance.now();
+      function animate(){
+        requestAnimationFrame(animate);
+        var now=performance.now(), delta=Math.min((now-prev)/1000,0.05); prev=now;
+
+        // Advance pulse along axon
+        pulseT += 0.08 * delta;
+        if (pulseT >= 1.0) {
+          pulseT -= 1.0;
+          somaFlash = 1.0;
+          if (!waveTriggered) { triggerDendriteWaves(); waveTriggered=true; }
+        }
+        if (pulseT > 0.1) waveTriggered = false;
+        if (pulseT > 0.95) somaFlash = Math.max(somaFlash, (pulseT-0.95)/0.05);
+
+        // Position comet head + tail
+        pulseHead.position.copy(axonCurve.getPoint(pulseT));
+        for (var ti=0; ti<TRAIL_N; ti++) {
+          var tT=Math.max(0, pulseT - trailMeshes[ti].offset);
+          trailMeshes[ti].mesh.position.copy(axonCurve.getPoint(tT));
+        }
+
+        // Keep soma glowing while dendrite waves are active
+        var anyActive=false;
+        for (var wi=0; wi<dendWaves.length; wi++){if(!dendWaves[wi].done){anyActive=true;break;}}
+        if (anyActive && somaFlash < 0.3) somaFlash = 0.3;
+
+        // Soma flash
+        if (somaFlash > 0) {
+          somaLight.intensity = BASE_SOMA + somaFlash*17;
+          somaLight.color.setHex(somaFlash > 0.4 ? 0xffffff : 0xffcc44);
+          somaMat.emissiveIntensity = 1.2 + somaFlash*3;
+          somaFlash = Math.max(0, somaFlash - delta*3.5);
+        } else {
+          somaLight.intensity=BASE_SOMA; somaLight.color.setHex(0xffffff); somaMat.emissiveIntensity=1.2;
+        }
+
+        // Dendrite waves: bell-curve brightness, traveling lights
+        var WAVE_SPEED = 0.45;
+        for (var wi=0; wi<dendWaves.length; wi++) {
+          var w=dendWaves[wi];
+          if (w.done) continue;
+          w.t += delta * WAVE_SPEED;
+          var prog=Math.min(w.t,1);
+          var bright=Math.sin(Math.PI*prog);
+          w.mat.emissive.setHex(w.color);
+          w.mat.emissiveIntensity = 3 * bright;
+          if (w.lightMesh) w.lightMesh.position.copy(w.curve.getPoint(prog));
+          if (w.t >= 1.3) {
+            w.done=true;
+            if (w.lightMesh) scene.remove(w.lightMesh);
+            w.mat.emissive.setHex(w.origEmissive);
+            w.mat.emissiveIntensity=1;
+          }
+        }
+
+        if (autoRot && !isDragging) orb.theta += 0.003;
+        updateCam();
+        renderer.render(scene, camera);
+      }
+      updateCam(); animate();
     } // end initNeuron
 
     if (window.THREE) {
       initNeuron();
     } else {
-      var s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-      s.onload = initNeuron;
+      var s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      s.onload=initNeuron;
       document.head.appendChild(s);
     }
   }());
